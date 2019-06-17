@@ -28,22 +28,45 @@ class Sp_Floating_Button extends SiteOrigin_Widget{
       array(),
       //The $form_options array, which describes the form fields used to configure SiteOrigin widgets. We'll explain these in more detail later.
       array(
-        'btn_url' => array(
-            'type'    => 'link',
-            'label'   => __('Type in your url','siteorigin-widget'),
-            'default' => 'www.google.com',
-        ),
         'btn_text' => array(
             'type'    => 'text',
             'label'   => __('Button Text','siteorigin-widget'),
             'default' => 'Button',
         ),
-        'show_btn'  =>  array(
+        'target_id'  =>  array(
             'type'    =>  'text',
-            'label'   =>  'Enter the row id',
-            'default' =>  200
+            'label'   =>  'Enter the target ID',
+            'default' =>  'sample'
         ),
-
+        'is_modal' => array(
+					'type' => 'checkbox',
+					'label' => __( 'Open Modal Box', 'siteorigin-widgets' ),
+					'default' => false,
+					'state_emitter' => array(
+						'callback' 	=> 'conditional',
+						'args' 		=> array(
+							'is_modal[active]: val',
+							'is_modal[inactive]: !val'
+						)
+					),
+				),
+				'modal_builder' => array(
+					'type' 	=> 'builder',
+					'label' => __( 'Modal Content', 'siteorigin-widgets'),
+					'state_handler' => array(
+						'is_modal[active]' 	=> array('show'),
+						'_else[is_modal]' 	=> array('hide'),
+					),
+				),
+        'link' => array(
+            'type'    => 'link',
+            'label'   => __('Type in your url','siteorigin-widget'),
+            'default' => 'https://www.example.com',
+            'state_handler' => array(
+  						'is_modal[active]' 	=> array('hide'),
+  						'_else[is_modal]' 	=> array('show'),
+  					),
+        ),
       ),
       plugin_dir_path(__FILE__).'/widgets/so-floating-button'
     );
