@@ -28,7 +28,27 @@ class SP_MAP extends SiteOrigin_Widget{
       array(),
       //The $form_options array, which describes the form fields used to configure SiteOrigin widgets. We'll explain these in more detail later.
       array(
-        
+        'items' => array(
+					'type' 	=> 'repeater',
+					'label' => __( 'Regions' , 'siteorigin-widgets' ),
+					'item_name'  => __( 'Region Item', 'siteorigin-widgets' ),
+					'fields' => array(
+            'region' => array(
+							'type'     => 'select',
+							'label'    => __( 'Select Region', 'siteorigin-widgets' ),
+              'options'  => $this->getRegions()
+						),
+            'color' => array(
+              'type' => 'color',
+              'label' => __( 'Choose a color', 'widget-form-fields-text-domain' ),
+              'default' => '#bada55'
+            ),
+						'popup' => array(
+							'type' 	=> 'tinymce',
+							'label' => __( 'Description', 'siteorigin-widgets' )
+						),
+					)
+				)
 
       ),
       plugin_dir_path(__FILE__).'/widgets/so-map'
@@ -41,10 +61,42 @@ class SP_MAP extends SiteOrigin_Widget{
 	function get_template_dir($instance) {
 		return 'templates';
 	}
-    function get_style_name($instance) {
-        return '';
+  function get_style_name($instance) {
+    return '';
+  }
+
+  function getJsonURL(){
+    return plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' );
+  }
+
+  function getJsonFile(){
+
+    $json_file = $this->getJsonURL();
+
+    $strJsonFileContents = file_get_contents( $json_file );
+
+    // Convert to array
+    $array = json_decode( $strJsonFileContents, true );
+
+    return $array;
+  }
+
+  function getRegions(){
+
+    $regions = array();
+
+    $array = $this->getJsonFile();
+
+    if( isset( $array['features'] ) ){
+      foreach( $array['features'] as $row ){
+        if( isset( $row['properties'] ) && isset( $row['properties']['SOVEREIGNT'] ) ){
+          $regions[ $row['properties']['SOVEREIGNT'] ] = $row['properties']['SOVEREIGNT'];
+        }
+      }
     }
 
+    return $regions;
+  }
 
 }
 

@@ -1,9 +1,14 @@
 [data-behaviour="choropleth-map"]{
   position: relative;
+  z-index: 500;
 }
 [data-behaviour="choropleth-map"] #map{
   width:100%;
   height: calc( 100vh - 80px );
+}
+
+[data-behaviour="choropleth-map"] .leaflet-popup-content-wrapper{
+  border-radius: 5px;
 }
 
 [data-behaviour="choropleth-map"] .loader{

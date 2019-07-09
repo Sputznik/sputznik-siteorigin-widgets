@@ -7,7 +7,7 @@ Version: 1.0.0
 Author: Sputznik
 */
 
-define( 'SP_SOW_VERSION', '1.0.2' );
+define( 'SP_SOW_VERSION', '1.0.6' );
 
 class SP_SOW{
 
@@ -44,8 +44,7 @@ class SP_SOW{
 
         wp_enqueue_script( 'leaflet', 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.js', array( 'jquery' ), SP_SOW_VERSION , true );
         wp_enqueue_script( 'leaflet-csv', plugin_dir_url( __FILE__ ).'/assets/js/leaflet.geocsv.js', array( 'leaflet' ), SP_SOW_VERSION , true );
-        wp_enqueue_script( 'countries-csv', plugin_dir_url( __FILE__ ).'/assets/js/countries.js', array( 'leaflet', 'leaflet-csv' ), SP_SOW_VERSION , true );
-        wp_enqueue_script( 'sow-choropleth', plugin_dir_url( __FILE__ ).'/assets/js/choropleth.js', array( 'jquery', 'countries-csv' ), SP_SOW_VERSION , true );
+        wp_enqueue_script( 'sow-choropleth', plugin_dir_url( __FILE__ ).'/assets/js/choropleth.js', array( 'jquery', 'leaflet-csv' ), SP_SOW_VERSION , true );
 
         break;
   		}

@@ -4,9 +4,16 @@
 
 		return this.each(function() {
 
-      var $el = jQuery( this );
+      var $el 			= jQuery( this ),
+				data				= {},
+				geoCountries = {},
+				regions_url = $el.data( 'regions-url' );
 
-			data = {};
+			if( $el.data('json') ){
+				data = $el.data( 'json' );
+			}
+
+
 
       // CREATE ELEMENTS ON THE FLY
       function createElements(){
@@ -41,15 +48,14 @@
         var hybAttrib = 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>';
         var hyb = new L.TileLayer(hybUrl, {minZoom: zoomLevel, maxZoom: 18, attribution: hybAttrib, opacity:1}).addTo(map);
 
-
 				var gjLayerCountries = L.geoJson( geoCountries, { style: styleCountry, onEachFeature: onEachCountry, filter: matchCountries } );
         gjLayerCountries.addTo(map);
 
-				console.log( data );
+
 
 				//ONLY ADD DISTRICTS THAT ARE AVAILABLE IN THE DATA
 				function matchCountries( feature ) {
-					if( data[ feature.properties.SOVEREIGNT ] ) return true;
+					if( feature.properties && data[ feature.properties.SOVEREIGNT ] ) return true;
 					return false;
 				}
 
@@ -72,6 +78,10 @@
 				var colors = [ '#311B92', '#5E35B1', '#7E57C2', '#B39DDB', '#EDE7F6' ];
 
 				var color = colors[ Math.floor( Math.random() * colors.length ) ];
+
+				if( data[ feature.properties.SOVEREIGNT ]['color'] ){
+					color = data[ feature.properties.SOVEREIGNT ]['color'];
+				}
 
 				return {
           fillColor: color,
@@ -99,7 +109,11 @@
           sticky    : true
         } );
 
-        layer.bindPopup( popContent( feature ), { maxWidth:600 } );
+				if( data[ feature.properties.SOVEREIGNT ] ['popup'] ){
+					layer.bindPopup( popContent( feature ), { maxWidth:600 } );
+				}
+
+
       }
 
 			function popContent( feature ) {
@@ -142,8 +156,18 @@
         // CREATE ALL THE DOM ELEMENTS FIRST
         createElements();
 
-        // RENDER THE MAP IN THE CORRECT DOM
-        drawMap();
+				jQuery.ajax({
+				  dataType	: "json",
+				  url				: regions_url,
+				  success		: function( data ){
+
+						geoCountries = data;
+
+						// RENDER THE MAP IN THE CORRECT DOM
+		        drawMap();
+					}
+				});
+
       }
 
       init();
