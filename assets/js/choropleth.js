@@ -4,13 +4,22 @@
 
 		return this.each(function() {
 
-      var $el 			= jQuery( this ),
-				data				= {},
+      var $el 			 = jQuery( this ),
+				data				 = {},
 				geoCountries = {},
-				regions_url = $el.data( 'regions-url' );
+				regions_data = {},
+				regions_url  = $el.data( 'regions-url' );
 
 			if( $el.data('json') ){
 				data = $el.data( 'json' );
+			}
+
+			if( data['region-lines'] == undefined ){
+				data['region-lines'] = {};
+			}
+
+			if( data[ 'regions' ] ){
+				regions_data = data[ 'regions' ];
 			}
 
 
@@ -37,59 +46,91 @@
 					zoomLevel = 1;
 				}
 
-				// HIDE THE LOADER
-        $el.find('.loader').hide();
+				//SETUP BASEMAP
+        var map = L.map('map').setView( [0, 0], zoomLevel );
 
-        //SETUP BASEMAP
-        var map = L.map('map').setView( [12.27, 10.37], zoomLevel );
+				drawBase( map, zoomLevel );
 
-        //var hybUrl='https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3VuZWV0bmFydWxhIiwiYSI6IldYQUNyd0UifQ.EtQC56soqWJ-KBQqHwcpuw';
-        var hybUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
-        var hybAttrib = 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>';
-        var hyb = new L.TileLayer(hybUrl, {minZoom: zoomLevel, maxZoom: 18, attribution: hybAttrib, opacity:1}).addTo(map);
+				drawRegionBoundaries( map );
 
-				var gjLayerCountries = L.geoJson( geoCountries, { style: styleCountry, onEachFeature: onEachCountry, filter: matchCountries } );
-        gjLayerCountries.addTo(map);
+				drawSelectedRegions( map );
 
+				drawMarkers( map );
 
+			}
 
-				//ONLY ADD DISTRICTS THAT ARE AVAILABLE IN THE DATA
-				function matchCountries( feature ) {
-					if( feature.properties && data[ feature.properties.SOVEREIGNT ] ) return true;
-					return false;
+			function drawBase( map, zoomLevel ){
+				if( data['map']['base_url'] == undefined ){
+					data['map']['base_url'] = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+					//https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3VuZWV0bmFydWxhIiwiYSI6IldYQUNyd0UifQ.EtQC56soqWJ-KBQqHwcpuw
 				}
 
-				//ADD COUNTRY BOUNDARIES
+				//var hybAttrib = 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>';
+				var hyb = new L.TileLayer( data['map']['base_url'], {minZoom: zoomLevel, maxZoom: 18, attribution: data['map']['attribution'], opacity:1}).addTo(map);
+
+			}
+
+			// ADD REGION BOUNDARIES
+			function drawRegionBoundaries( map ){
 				var gjLayerCountryLines = L.geoJson( geoCountries, { style: {
-					"color"		: "#000",
-					"weight"	: 1,
-					"opacity"	: 1,
-					"fill"		: false
+					"color"		: data['region-lines']['color'] ? data['region-lines']['color'] : '#000000',
+					"weight"	: data['region-lines']['weight'] ? data['region-lines']['weight'] : 1,
+					"opacity"	: data['region-lines']['opacity'] ? data['region-lines']['opacity'] : 1,
+					"fillColor"		: '#ffffff',
+					'fillOpacity'	: 0.8,
 				} } );
 				gjLayerCountryLines.addTo(map);
-
 				map.setMaxBounds( gjLayerCountryLines.getBounds() );
+			}
 
+			// ADD SELECTED REGIONS BY THE USER FROM THE BACKEND
+			function drawSelectedRegions( map ){
+				var gjLayerCountries = L.geoJson( geoCountries, { style: styleRegion, onEachFeature: onEachCountry, filter: matchRegions } );
+        gjLayerCountries.addTo(map);
 
-      }
-
-      function styleCountry( feature ){
-
-				var colors = [ '#311B92', '#5E35B1', '#7E57C2', '#B39DDB', '#EDE7F6' ];
-
-				var color = colors[ Math.floor( Math.random() * colors.length ) ];
-
-				if( data[ feature.properties.SOVEREIGNT ]['color'] ){
-					color = data[ feature.properties.SOVEREIGNT ]['color'];
+				// ONLY ADD REGIONS THAT ARE AVAILABLE IN THE DATA
+				function matchRegions( feature ) {
+					if( feature.properties && regions_data[ feature.properties.SOVEREIGNT ] ) return true;
+					return false;
 				}
+			}
 
+			// ITERATE THROUGH THE LIST OF MARKERS ENTERRED BY THE USER
+			function drawMarkers( map ){
+
+				if( data['markers'] != undefined ){
+
+					var markersLayer = [];
+
+					jQuery.each( data[ 'markers' ], function( i, marker ){
+						if( marker['lat'] != undefined && marker['lng'] != undefined ){
+
+							// ADD MARKER BASED ON LAT AND LNG
+							var markerLayer = L.marker( [ marker['lat'], marker['lng'] ]);
+
+							// ADD POPUP FOR THE MARKER IF IT EXISTS
+							if( marker['popup'] != undefined ){ markerLayer.bindPopup( marker['popup'] ); }
+
+							// ADD MARKER TO THE LIST OF MARKERS
+							markersLayer.push( markerLayer );
+						}
+
+					} );
+
+					L.layerGroup( markersLayer ).addTo(map);
+				}
+			}
+
+      function styleRegion( feature ){
+				var color = '#311B92';
+				if( regions_data[ feature.properties.SOVEREIGNT ]['color'] ){ color = regions_data[ feature.properties.SOVEREIGNT ]['color']; }
 				return {
-          fillColor: color,
-          weight: 1,
-          opacity: 0.4,
-          color: 'black',
-          dashArray: '1',
-          fillOpacity: 0.8
+          fillColor		: color,
+          weight			: 1,
+          opacity			: 0.4,
+          color				: 'black',
+          dashArray		: '1',
+          fillOpacity	: 0.8
         };
 			}
 
@@ -109,20 +150,15 @@
           sticky    : true
         } );
 
-				if( data[ feature.properties.SOVEREIGNT ] ['popup'] ){
-					layer.bindPopup( popContent( feature ), { maxWidth:600 } );
+				if( regions_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
+					layer.bindPopup( regions_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth:600 } );
 				}
 
 
       }
 
-			function popContent( feature ) {
-				var content = data[ feature.properties.SOVEREIGNT ] ['popup'];
-				return content;
-      }
-
-      function highlightFeature(e) {
-        //DISTRICT HIGHLIGHT ON MOUSEOVER
+			function highlightFeature(e) {
+        // REGION HIGHLIGHT ON MOUSEOVER
         var layer = e.target;
 
         layer.setStyle( {
@@ -130,19 +166,17 @@
           color: 'yellow',
           opacity: 0.9
         } );
-        if ( !L.Browser.ie && !L.Browser.opera ) {
-          layer.bringToFront();
-        }
+        if ( !L.Browser.ie && !L.Browser.opera ) { layer.bringToFront(); }
       }
 
       function resetHighlight(e) {
-          //RESET HIGHLIGHT ON MOUSEOUT
-          var layer = e.target;
-          layer.setStyle({
-            weight: 1,
-            color: 'black',
-            opacity: 0.4
-          });
+        // RESET HIGHLIGHT ON MOUSEOUT
+        var layer = e.target;
+        layer.setStyle({
+          weight	: 1,
+          color		: 'black',
+          opacity	: 0.4
+        });
       }
 
       function zoomToFeature(e) {
@@ -162,6 +196,10 @@
 				  success		: function( data ){
 
 						geoCountries = data;
+
+						// HIDE THE LOADER
+		        $el.find('.loader').hide();
+
 
 						// RENDER THE MAP IN THE CORRECT DOM
 		        drawMap();

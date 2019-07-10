@@ -40,7 +40,7 @@ class SP_MAP extends SiteOrigin_Widget{
 						),
             'color' => array(
               'type' => 'color',
-              'label' => __( 'Choose a color', 'widget-form-fields-text-domain' ),
+              'label' => __( 'Choose a color', 'siteorigin-widgets' ),
               'default' => '#bada55'
             ),
 						'popup' => array(
@@ -48,8 +48,60 @@ class SP_MAP extends SiteOrigin_Widget{
 							'label' => __( 'Description', 'siteorigin-widgets' )
 						),
 					)
-				)
-
+				),
+        'markers' => array(
+					'type' 	=> 'repeater',
+					'label' => __( 'Markers' , 'siteorigin-widgets' ),
+					'item_name'  => __( 'Marker', 'siteorigin-widgets' ),
+					'fields' => array(
+            'lat' => array(
+              'type'    => 'text',
+              'default' => '0',
+              'label'   => 'Latitude'
+            ),
+            'lng' => array(
+              'type'    => 'text',
+              'default' => '0',
+              'label'   => 'Longitude'
+            ),
+						'popup' => array(
+							'type' 	=> 'tinymce',
+							'label' => __( 'Description', 'siteorigin-widgets' )
+						),
+					)
+				),
+        'region-lines' => array(
+          'type'  => 'section',
+          'label' => __( 'Region Styles', 'siteorigin-widgets' ),
+          'fields' => array(
+            'color' => array(
+              'type'    => 'color',
+              'default' => '#000000',
+              'label'   => __( 'Boundary Color', 'siteorigin-widgets' )
+            ),
+            'opacity' => array(
+              'type'    => 'number',
+              'default' => 1,
+              'label'   => __( 'Opacity', 'siteorigin-widgets' )
+            ),
+          )
+        ),
+        'map' => array(
+          'type'    => 'section',
+          'label'   => __( 'Map Styles', 'siteorigin-widgets' ),
+          'fields'  => array(
+            'base_url'  => array(
+              'type'    => 'text',
+              'default' => 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+              'label'   => 'Base Map URL'
+            ),
+            'attribution' => array(
+              'type'    => 'text',
+              'default' => 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>',
+              'label'   => 'Map Attribution'
+            )
+          )
+        )
       ),
       plugin_dir_path(__FILE__).'/widgets/so-map'
     );
