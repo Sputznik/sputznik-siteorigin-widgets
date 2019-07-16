@@ -54,6 +54,11 @@ class SP_MAP extends SiteOrigin_Widget{
 					'label' => __( 'Markers' , 'siteorigin-widgets' ),
 					'item_name'  => __( 'Marker', 'siteorigin-widgets' ),
 					'fields' => array(
+            'icon' => array(
+              'type' => 'media',
+              'library' => 'image',
+              'label'   => __(' Marker Icon', 'siteorigin-widgets' ),
+            ),
             'lat' => array(
               'type'    => 'text',
               'default' => '0',
@@ -99,11 +104,46 @@ class SP_MAP extends SiteOrigin_Widget{
               'type'    => 'text',
               'default' => 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>',
               'label'   => 'Map Attribution'
+            ),
+            'desktop' => array(
+              'type'    => 'section',
+              'label'   => __( 'Desktop Styles', 'siteorigin-widgets' ),
+              'fields'  => $this->get_responsive_common_fields()
+            ),
+            'tablet' => array(
+              'type'    => 'section',
+              'label'   => __( 'Tablet Styles', 'siteorigin-widgets' ),
+              'fields'  => $this->get_responsive_common_fields()
+            ),
+            'mobile' => array(
+              'type'    => 'section',
+              'label'   => __( 'Mobile Styles', 'siteorigin-widgets' ),
+              'fields'  => $this->get_responsive_common_fields()
             )
           )
         )
       ),
       plugin_dir_path(__FILE__).'/widgets/so-map'
+    );
+  }
+
+  function get_responsive_common_fields(){
+    return array(
+      'zoom'  => array(
+        'type'    => 'number',
+        'default' => 2,
+        'label'   => 'Zoom Level'
+      ),
+      'lat' => array(
+        'type'    => 'text',
+        'default' => '0',
+        'label'   => 'Latitude of Centre'
+      ),
+      'lng' => array(
+        'type'    => 'text',
+        'default' => '0',
+        'label'   => 'Longitude of Centre'
+      ),
     );
   }
 

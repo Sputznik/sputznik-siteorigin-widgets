@@ -1,5 +1,7 @@
 <?php
 
+  global $sp_sow;
+
   $data = array();
 
   $instance['regions'] = array();
@@ -14,12 +16,24 @@
       }
     }
   }
-
   unset( $instance['items'] );
 
-  //echo "<pre>";
-  //print_r( $instance );
-  //echo "</pre>";
+  if( isset( $instance['markers'] ) ){
+    foreach( $instance['markers'] as $key => $marker ){
+      if( isset( $marker['icon'] ) ){
+        $instance['markers'][ $key ]['icon'] = $sp_sow->get_image_url( $marker['icon'] );
+      }
+    }
+  }
+
+  /*
+  echo "<pre>";
+  print_r( $instance );
+  echo "</pre>";
+
+  return '';
+  */
+
 ?>
 
 <div data-regions-url="<?php _e( $this->getJsonURL() );?>" data-json='<?php _e( wp_json_encode( $instance ) )?>' data-behaviour="choropleth-map"></div>

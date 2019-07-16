@@ -39,15 +39,20 @@
 
       function drawMap(){
 
-				var zoomLevel = 2;
+				var zoomLevel = data['map']['desktop']['zoom'],
+					center_lat	= data['map']['desktop']['lat'],
+					center_lng 	= data['map']['desktop']['lng'];
 
 				var window_width = jQuery( window ).width();
 				if( window_width < 500 ){
-					zoomLevel = 1;
+					zoomLevel = data['map']['mobile']['zoom'];
+				}
+				else if( window_width < 768 ){
+					zoomLevel = data['map']['tablet']['zoom'];
 				}
 
 				//SETUP BASEMAP
-        var map = L.map('map').setView( [0, 0], zoomLevel );
+        var map = L.map('map').setView( [center_lat, center_lng], zoomLevel );
 
 				drawBase( map, zoomLevel );
 
@@ -62,7 +67,7 @@
 			function drawBase( map, zoomLevel ){
 				if( data['map']['base_url'] == undefined ){
 					data['map']['base_url'] = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
-					//https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ3VuZWV0bmFydWxhIiwiYSI6IldYQUNyd0UifQ.EtQC56soqWJ-KBQqHwcpuw
+					//https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtdnRob20xNiIsImEiOiJjanh3cWNhYWIwN2pmM2NudzNtcDV6N3VjIn0.MoTl8WNgKqxgaTUDSIDK-Q
 				}
 
 				//var hybAttrib = 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>';
@@ -102,22 +107,33 @@
 
 					var markersLayer = [];
 
+					var markersClusterGroup = L.markerClusterGroup();
+
 					jQuery.each( data[ 'markers' ], function( i, marker ){
 						if( marker['lat'] != undefined && marker['lng'] != undefined ){
 
+							var icon = L.icon({
+								iconUrl : marker['icon'],
+								iconSize: [30, 30],
+							});
+
 							// ADD MARKER BASED ON LAT AND LNG
-							var markerLayer = L.marker( [ marker['lat'], marker['lng'] ]);
+							var markerLayer = L.marker( [ marker['lat'], marker['lng'] ], { icon: icon } );
 
 							// ADD POPUP FOR THE MARKER IF IT EXISTS
 							if( marker['popup'] != undefined ){ markerLayer.bindPopup( marker['popup'] ); }
 
 							// ADD MARKER TO THE LIST OF MARKERS
-							markersLayer.push( markerLayer );
+							//markersLayer.push( markerLayer );
+
+							markersClusterGroup.addLayer( markerLayer );
 						}
 
 					} );
 
-					L.layerGroup( markersLayer ).addTo(map);
+					markersClusterGroup.addTo( map );
+
+					//L.layerGroup( markersLayer ).addTo(map);
 				}
 			}
 

@@ -7,7 +7,7 @@ Version: 1.0.0
 Author: Sputznik
 */
 
-define( 'SP_SOW_VERSION', '1.0.8' );
+define( 'SP_SOW_VERSION', '1.1.5' );
 
 class SP_SOW{
 
@@ -21,6 +21,11 @@ class SP_SOW{
     $folders[] = plugin_dir_path( __FILE__ ).'widgets/';
     return $folders;
   }
+
+  function get_image_url( $post_id ){
+		if( $post_id ) return wp_get_attachment_url( $post_id );
+		return false;
+	}
 
   function getUniqueID( $data ){
 		return substr( md5( json_encode( $data ) ), 0, 8 );
@@ -41,10 +46,13 @@ class SP_SOW{
 
         wp_enqueue_style( 'sow-choropleth', plugin_dir_url(  __FILE__).'/assets/css/choropleth.css', array(), SP_SOW_VERSION );
         wp_enqueue_style( 'leaflet', 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.css', array(), SP_SOW_VERSION );
+        wp_enqueue_style( 'leaflet-marker', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css', array(), SP_SOW_VERSION );
+        wp_enqueue_style( 'leaflet-marker-default', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css', array(), SP_SOW_VERSION );
 
         wp_enqueue_script( 'leaflet', 'https://unpkg.com/leaflet@1.4.0/dist/leaflet.js', array( 'jquery' ), SP_SOW_VERSION , true );
+        wp_enqueue_script( 'leaflet-marker', 'https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js', array( 'jquery', 'leaflet' ), SP_SOW_VERSION , true );
         wp_enqueue_script( 'leaflet-csv', plugin_dir_url( __FILE__ ).'/assets/js/leaflet.geocsv.js', array( 'leaflet' ), SP_SOW_VERSION , true );
-        wp_enqueue_script( 'sow-choropleth', plugin_dir_url( __FILE__ ).'/assets/js/choropleth.js', array( 'jquery', 'leaflet-csv' ), SP_SOW_VERSION , true );
+        wp_enqueue_script( 'sow-choropleth', plugin_dir_url( __FILE__ ).'/assets/js/choropleth.js', array( 'jquery', 'leaflet-csv', 'leaflet-marker' ), SP_SOW_VERSION , true );
 
         break;
   		}

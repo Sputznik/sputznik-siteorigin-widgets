@@ -4,7 +4,7 @@
 }
 [data-behaviour="choropleth-map"] #map{
   width:100%;
-  height: calc( 100vh - 80px );
+  height: 400px;
 }
 
 [data-behaviour="choropleth-map"] .leaflet-popup-content-wrapper{
@@ -20,6 +20,7 @@
     top:0;
     left:0;
     z-index: 10000;
+    text-align: center;
 }
 
 [data-behaviour="choropleth-map"] .leaflet-top,
@@ -30,6 +31,6 @@
 @media( max-width:768px ){
   [data-behaviour="choropleth-map"] #map{
     width:100%;
-    height: 400px;
+    height: 250px;
   }
 }
