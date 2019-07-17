@@ -52,6 +52,12 @@ jQuery("[data-toggle~=modal]").each( function(){
 
     var $modal = jQuery( $button.attr( 'href' ) );
 
+    
+    // map within the modal
+    if( $modal.find( '[data-behaviour~=choropleth-map]' ).length && !$modal.find( '[data-behaviour~=choropleth-map]' ).html() ){
+      $modal.find( '[data-behaviour~=choropleth-map]' ).choropleth_map();
+      console.log('trigger map');
+    }
 
     $modal.addClass('show-modal');
   });

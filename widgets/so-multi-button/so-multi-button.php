@@ -1,27 +1,26 @@
 <?php
 /*
-Widget Name: Floating Button Widget
-Description: Floating Button
-Author: Steve
-Author URI:
+Widget Name: Multi-purpose Button
+Description: Multi-purpose Button that can be floating in nature and open a modal box
+Author: Samuel Thomas, Sputznik
+Author URI: https://sputznik.com
 Widget URI:
-Video URI:
 */
 
-class Sp_Floating_Button extends SiteOrigin_Widget{
+class SP_MULTI_BUTTON extends SiteOrigin_Widget{
 
   function __construct(){
     //Here you can do any preparation required before calling the parent constructor, such as including additional files or initializing variables.
     //Call the parent constructor with the required arguments.
     parent::__construct(
       // The unique id for your widget.
-      'so-floating-button',
+      'so-multi-button',
       // The name of the widget for display purposes.
-      __( 'Floating Button', 'siteorigin-widgets' ),
+      __( 'Multi-purpose Button', 'siteorigin-widgets' ),
       // The $widget_options array, which is passed through to WP_Widget.
       // It has a couple of extras like the optional help URL, which should link to your sites help or support page.
       array(
-        'description' => __('Floating Button','siteorigin-widgets'),
+        'description' => __( 'Multi-purpose Button that can be floating in nature and open a modal box', 'siteorigin-widgets' ),
         'help'        => '',
       ),
       //The $control_options array, which is passed through to WP_Widget
@@ -33,10 +32,26 @@ class Sp_Floating_Button extends SiteOrigin_Widget{
             'label'   => __('Button Text','siteorigin-widget'),
             'default' => 'Button',
         ),
+        'is_floating' => array(
+					'type'     => 'checkbox',
+					'label'    => __( 'Is Floating Button', 'siteorigin-widgets' ),
+					'default'  => false,
+					'state_emitter' => array(
+						'callback' 	  => 'conditional',
+						'args' 	=> array(
+							'is_floating[active]: val',
+							'is_floating[inactive]: !val'
+						)
+					),
+				),
         'target_id'  =>  array(
-            'type'    =>  'text',
-            'label'   =>  'Enter the target ID',
-            'default' =>  'sample'
+          'type'    =>  'text',
+          'label'   =>  'Enter the target ID',
+          'default' =>  'sample',
+          'state_handler' => array(
+  					'is_floating[active]' 	=> array('show'),
+  					'_else[is_floating]' 	=> array('hide'),
+  				),
         ),
         'is_modal' => array(
 					'type' => 'checkbox',
@@ -67,6 +82,19 @@ class Sp_Floating_Button extends SiteOrigin_Widget{
   						'_else[is_modal]' 	=> array('show'),
   					),
         ),
+        'align' => array(
+          'type'     => 'select',
+          'label'    => __( 'Choose Alignment', 'siteorigin-widgets' ),
+          'options'  => array(
+            'left'    => 'Left',
+            'center'  => 'Center',
+            'right'   => 'Right'
+          ),
+          'state_handler' => array(
+  					'is_floating[active]' 	=> array( 'hide' ),
+  					'_else[is_floating]' 	=> array( 'show' ),
+  				),
+        ),
       ),
       plugin_dir_path(__FILE__).'/widgets/so-floating-button'
     );
@@ -85,4 +113,4 @@ class Sp_Floating_Button extends SiteOrigin_Widget{
 
 }
 
-siteorigin_widget_register( 'so-floating-button', __FILE__, 'Sp_Floating_Button' );
+siteorigin_widget_register( 'so-multi-button', __FILE__, 'SP_MULTI_BUTTON' );

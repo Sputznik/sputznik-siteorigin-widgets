@@ -3,7 +3,7 @@
 	$.fn.choropleth_map = function(){
 
 		return this.each(function() {
-
+			console.log('hello');
       var $el 			 = jQuery( this ),
 				data				 = {},
 				geoCountries = {},
@@ -232,6 +232,16 @@
 
 jQuery(document).ready(function(){
 
-  jQuery( '[data-behaviour~=choropleth-map]' ).choropleth_map();
+	jQuery( '[data-behaviour~=choropleth-map]' ).each( function(){
+
+		var $map_container = jQuery( this );
+
+		if( !$map_container.closest( '.inline-modal' ).length ){
+			$map_container.choropleth_map();
+		}
+
+	} );
+
+
 
 });
