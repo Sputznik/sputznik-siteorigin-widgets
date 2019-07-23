@@ -44,7 +44,7 @@ class SP_SOW{
   }
 
   function assets(){
-    wp_enqueue_style( 'buttonscript', plugin_dir_url(  __FILE__).'/assets/css/sow.css', array(), SP_SOW_VERSION );
+    wp_enqueue_style( 'buttonscript', plugin_dir_url(  __FILE__).'assets/css/sow.css', array(), SP_SOW_VERSION );
     wp_enqueue_script( 'buttonstyle', plugin_dir_url( __FILE__ ).'/assets/js/sow.js', array( 'jquery' ), SP_SOW_VERSION , true );
 
     $panels_data = get_post_meta( get_the_ID(), 'panels_data', true );
@@ -57,6 +57,16 @@ class SP_SOW{
       $this->map_assets();
     }
 
+  }
+
+  function modal( $modal_id, $modal_content ){
+    ?>
+    <div id="<?php _e( $modal_id );?>" class="inline-modal" data-behaviour="inline-modal">
+  		<div class="inline-overlay"></div>
+  		<button type="button" class="close">&times;</button>
+  		<div class="inline-modal-dialog" role="document"><?php echo $modal_content;?></div>
+  	</div>
+    <?php
   }
 
 }
