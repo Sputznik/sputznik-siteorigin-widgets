@@ -26,7 +26,7 @@
   grid-template-columns: repeat( <?php _e( $instance['odometer_normal'] ); ?> ,1fr);
   grid-gap: 10px;
   height:100%;
-  background:#ebebeb;
+  /* background:#ebebeb; */
 }
 .odometer-wrapper .odometer-Txt{
   text-align:center;
