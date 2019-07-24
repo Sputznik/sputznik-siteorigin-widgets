@@ -25,13 +25,9 @@
 </div>
 
 <!-- MODALS FROM THE INLINE POSTS -->
-<?php if( function_exists( 'siteorigin_panels_render' ) ): ?>
-  <div id="<?php _e( 'modal-'.$widget_id );?>" class="inline-modal" data-behaviour="inline-modal">
-    <div class="inline-overlay"></div>
-    <button type="button" class="close">&times;</button>
-    <div class="inline-modal-dialog" role="document">
-      <?php echo siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] );?>
-    </div>
-  </div>
-<?php endif;?>
+<?php
+  if( function_exists( 'siteorigin_panels_render' ) ){
+    $sp_sow->modal( 'modal-'.$widget_id, siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] ) );
+  }
+?>
 <!-- END OF MODALS -->

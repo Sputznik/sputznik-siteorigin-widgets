@@ -158,7 +158,8 @@ class SP_MAP extends SiteOrigin_Widget{
   }
 
   function getJsonURL(){
-    return plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' );
+    $json_url = plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' );
+    return apply_filters( 'sputznik-sow-json-url', $json_url );
   }
 
   function getJsonFile(){
