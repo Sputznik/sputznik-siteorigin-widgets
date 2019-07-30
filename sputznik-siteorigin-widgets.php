@@ -59,12 +59,12 @@ class SP_SOW{
 
   }
 
-  function modal( $modal_id, $modal_content ){
+  function modal( $modal_id, $modal_content, $modal_width = '600px' ){
     ?>
     <div id="<?php _e( $modal_id );?>" class="inline-modal" data-behaviour="inline-modal">
   		<div class="inline-overlay"></div>
   		<button type="button" class="close">&times;</button>
-  		<div class="inline-modal-dialog" role="document"><?php echo $modal_content;?></div>
+  		<div class="inline-modal-dialog" style="max-width:<?php _e( $modal_width );?>" role="document"><?php echo $modal_content;?></div>
   	</div>
     <?php
   }

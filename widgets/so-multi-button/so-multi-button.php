@@ -65,6 +65,21 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
 						)
 					),
 				),
+        'modal_dialog_width' => array(
+					'type' 	=> 'multi-measurement',
+					'label' => __( 'Modal Dialog Width', 'siteorigin-widgets'),
+          'autofill'  =>  true,
+          'default' => '600px',
+          'measurements' => array(
+            'width' => array(
+              'units' => array( 'px','%' ),
+            ),
+          ),
+					'state_handler' => array(
+						'is_modal[active]' 	=> array('show'),
+						'_else[is_modal]' 	=> array('hide'),
+					),
+				),
 				'modal_builder' => array(
 					'type' 	=> 'builder',
 					'label' => __( 'Modal Content', 'siteorigin-widgets'),
