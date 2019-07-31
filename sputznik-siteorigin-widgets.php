@@ -51,9 +51,11 @@ class SP_SOW{
 
     if(empty($panels_data['widgets'])) return;
 
+    global $wp_widget_factory;
+
     //echo serialize( $panels_data ); wp_die();
 
-    if( strpos( serialize( $panels_data ), ':"SP_MAP";' ) >= 0 ){
+    if( ( isset( $wp_widget_factory->widgets['SP_MAP'] ) ) && ( strpos( serialize( $panels_data ), ':"SP_MAP";' ) >= 0 ) ){
       $this->map_assets();
     }
 
