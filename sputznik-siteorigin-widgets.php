@@ -55,6 +55,7 @@ class SP_SOW{
 
     //echo serialize( $panels_data ); wp_die();
 
+    // LOAD MAP ASSETS ONLY WHEN THE WIDGET IS ACTIVE AND HAS BEEN USED IN THE Page
     if( ( isset( $wp_widget_factory->widgets['SP_MAP'] ) ) && ( strpos( serialize( $panels_data ), ':"SP_MAP";' ) >= 0 ) ){
       $this->map_assets();
     }
