@@ -1,5 +1,6 @@
 <?php
   $odometer_repeater = $instance['odometer_repeater'];
+  $odometer_delay = $instance['odometer_delay'];
   // UNIQUE ID OF THE WIDGET
   global $sp_sow;
   $widget_id = 'sow-odometer-'.$sp_sow->getUniqueID( $instance );
@@ -11,9 +12,9 @@
             $odometer_icon = siteorigin_widget_get_icon( $value['odometer_icon'], array( '' ) );
           ?>
           	<div class=" item odometer-Txt">
-              <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
-              <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
               <?php ( $value['odometer_prefix'] ) ? _e( '<span class="odometer-prefix">'.$value['odometer_prefix'].'</span>' ) : ''?>
+              <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
+              <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
               <div class="odometer-desc">
                 <?php _e( $odometer_icon ); ?><?php _e( $value['odometer_txt'] ); ?>
               </div>
@@ -26,7 +27,7 @@
   grid-template-columns: repeat( <?php _e( $instance['odometer_normal'] ); ?> ,1fr);
   grid-gap: 10px;
   height:100%;
-  background:#ebebeb;
+  /* background:#ebebeb; */
 }
 .odometer-wrapper .odometer-Txt{
   text-align:center;
@@ -87,7 +88,7 @@ jQuery(window).scroll(function() {
 
         {
 
-          duration: 7000,
+          duration: <?php _e( $instance['odometer_delay'] ); ?>,
           easing: 'swing',
           step: function() {
             $this.text(Math.floor(this.countNum));

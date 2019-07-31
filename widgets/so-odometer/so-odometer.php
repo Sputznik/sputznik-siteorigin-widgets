@@ -30,16 +30,16 @@ class SP_ODOMETER extends SiteOrigin_Widget{
             'label' =>  __( 'Odometer Limit', 'siteorigin-widgets' ),
             'default' =>  '50',
           ),
-          'odometer_suffix' => array(
-            'type'  =>  'text',
-            'label' =>  __( 'Suffix', 'siteorigin-widgets' ),
-            'description' =>  __( 'The suffix string for the odometer stats. Examples include strings like hr for hours or m for million.',
-                              'siteorigin-widgets' )
-          ),
           'odometer_prefix' => array(
             'type'  =>  'text',
             'label' =>  __( 'Prefix', 'siteorigin-widgets' ),
             'description' =>  __( 'The prefix string for the counter. Examples include currency symbols like $ to indicate a monetary value.',
+                              'siteorigin-widgets' )
+          ),
+          'odometer_suffix' => array(
+            'type'  =>  'text',
+            'label' =>  __( 'Suffix', 'siteorigin-widgets' ),
+            'description' =>  __( 'The suffix string for the odometer stats. Examples include strings like hr for hours or m for million.',
                               'siteorigin-widgets' )
           ),
         )
@@ -54,6 +54,12 @@ class SP_ODOMETER extends SiteOrigin_Widget{
               'units' => $useable_units,
             ),
           ),
+        ),
+        'odometer_delay' => array(
+          'type' => 'number',
+          'label' => __( 'Odometer Delay', 'siteorigin-widgets' ),
+          'default' => 7000,
+          'description' =>  __( 'Number of seconds that the animation lasts. Example, 2seconds = 2000 milliseconds','siteorigin-widgets' )
         ),
       'odometer_normal' => array(
         'type' => 'slider',

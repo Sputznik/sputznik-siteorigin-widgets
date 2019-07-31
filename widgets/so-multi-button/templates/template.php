@@ -27,7 +27,7 @@
 <!-- MODALS FROM THE INLINE POSTS -->
 <?php
   if( function_exists( 'siteorigin_panels_render' ) ){
-    $sp_sow->modal( 'modal-'.$widget_id, siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] ) );
+    $sp_sow->modal( 'modal-'.$widget_id, siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] ), $instance['modal_dialog_width'] );
   }
 ?>
 <!-- END OF MODALS -->
