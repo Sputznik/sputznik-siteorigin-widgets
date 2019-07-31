@@ -3,7 +3,7 @@
 	$.fn.choropleth_map = function(){
 
 		return this.each(function() {
-			console.log('hello');
+
       var $el 			 = jQuery( this ),
 				data				 = {},
 				geoCountries = {},
