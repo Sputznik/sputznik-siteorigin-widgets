@@ -88,3 +88,25 @@ a[href].sp-floating-btn:hover{
   overflow-y: scroll;
 }
 /* END OF MODAL BOX */
+
+/* Odometer */
+.odometer-desc span{
+  color: #ccc;
+}
+.odometer-desc{
+  color: #888;
+}
+.odometer-desc .sow-fas{
+  margin-right: 15px;
+  font-size: 32px;
+  /* float: left; */
+  font-weight: 900;
+}
+.odometer-wrapper .odometer-Txt{
+  text-align:center;
+  /* font-size:40px; */
+  font-weight:bold;
+  text-transform:uppercase;
+  padding: 10px;
+}
+.odometer-wrapper .odometer-Txt span{display:inline-block;}
