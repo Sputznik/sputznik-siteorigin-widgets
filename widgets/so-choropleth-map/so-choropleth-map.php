@@ -8,14 +8,14 @@ Widget URI:
 Video URI:
 */
 
-class SP_MAP extends SiteOrigin_Widget{
+class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
 
   function __construct(){
     //Here you can do any preparation required before calling the parent constructor, such as including additional files or initializing variables.
     //Call the parent constructor with the required arguments.
     parent::__construct(
       // The unique id for your widget.
-      'so-map',
+      'so-choropleth-map',
       // The name of the widget for display purposes.
       __( 'Sputznik Choropleth Map ', 'siteorigin-widgets' ),
       // The $widget_options array, which is passed through to WP_Widget.
@@ -193,4 +193,4 @@ class SP_MAP extends SiteOrigin_Widget{
 
 }
 
-siteorigin_widget_register( 'so-map', __FILE__, 'SP_MAP' );
+siteorigin_widget_register( 'so-choropleth-map', __FILE__, 'SP_CHOROPLETH_MAP_WIDGET' );
