@@ -96,7 +96,7 @@ a[href].sp-floating-btn:hover{
 .odometer-desc{
   color: #888;
 } */
-.odometer-desc .sow-fas{
+.odometer-desc span:first-child{
   margin-right: 15px;
   font-size: 32px;
   /* float: left; */

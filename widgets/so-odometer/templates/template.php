@@ -16,7 +16,8 @@
               <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
               <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
               <div class="odometer-desc">
-                <?php _e( $odometer_icon ); ?><?php _e( $value['odometer_txt'] ); ?>
+                <?php _e( $odometer_icon ); ?>
+                <span><?php _e( $value['odometer_txt'] ); ?></span>
               </div>
             </div>
           <?php } ?>
@@ -49,7 +50,7 @@
   color : <?php _e($instance['counter_color']);?>;
 }
 
-.odometer-desc, .odometer-desc span {
+.odometer-desc span {
   color: <?php _e($instance['desc_color']);?>;
 }
 
