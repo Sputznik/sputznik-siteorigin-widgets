@@ -41,9 +41,17 @@
   }
 }
 .odometer-wrapper .odometer-suffix,.odometer-wrapper .odometer-prefix{
-  font-size: <?php _e($instance['odometer_font'])?>;
+  font-size: <?php _e($instance['odometer_font']);?>;
+  color: <?php _e($instance['counter_color']);?>;
 }
-.odometer-value{font-size: <?php _e($instance['odometer_font'])?>}
+.odometer-value{
+  font-size: <?php _e($instance['odometer_font']);?>;
+  color : <?php _e($instance['counter_color']);?>;
+}
+
+.odometer-desc, .odometer-desc span {
+  color: <?php _e($instance['desc_color']);?>;
+}
 
 /* @media(min-width:320px) and (max-width:767px){
 .c-no{height:100%;}

@@ -90,12 +90,12 @@ a[href].sp-floating-btn:hover{
 /* END OF MODAL BOX */
 
 /* Odometer */
-.odometer-desc span{
+/* .odometer-desc span{
   color: #ccc;
 }
 .odometer-desc{
   color: #888;
-}
+} */
 .odometer-desc .sow-fas{
   margin-right: 15px;
   font-size: 32px;
