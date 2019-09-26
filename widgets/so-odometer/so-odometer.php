@@ -42,6 +42,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
             'description' =>  __( 'The suffix string for the odometer stats. Examples include strings like hr for hours or m for million.',
                               'siteorigin-widgets' )
           ),
+
         )
       ),
         'odometer_font'  => array(
@@ -54,6 +55,17 @@ class SP_ODOMETER extends SiteOrigin_Widget{
               'units' => $useable_units,
             ),
           ),
+        ),
+        'counter_color' => array(
+          'type' => 'color',
+          'label' => __( 'Choose a Color for Counter, Suffix & Prefix', 'widget-form-fields-text-domain' ),
+          'default' => '#fff',
+          'description' => __( 'Color for ', 'siteorigin-widgets' )
+        ),
+        'desc_color' => array(
+          'type' => 'color',
+          'label' => __( 'Choose a Color for Icon and Title ', 'widget-form-fields-text-domain' ),
+          'default' => '#ddd',
         ),
         'odometer_delay' => array(
           'type' => 'number',

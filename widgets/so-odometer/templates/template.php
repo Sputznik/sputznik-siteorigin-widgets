@@ -16,7 +16,12 @@
               <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
               <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
               <div class="odometer-desc">
-                <?php _e( $odometer_icon ); ?><?php _e( $value['odometer_txt'] ); ?>
+                <?php if( $odometer_icon ): _e( $odometer_icon ); _e( $value['odometer_txt'] ); ?>
+                <?php else:?>
+                <div class="no-icon">
+                  <?php _e( $value['odometer_txt'] );?>
+                </div>
+                <?php endif?>
               </div>
             </div>
           <?php } ?>
@@ -41,9 +46,20 @@
   }
 }
 .odometer-wrapper .odometer-suffix,.odometer-wrapper .odometer-prefix{
-  font-size: <?php _e($instance['odometer_font'])?>;
+  font-size: <?php _e($instance['odometer_font']);?>;
+  color: <?php _e($instance['counter_color']);?>;
 }
-.odometer-value{font-size: <?php _e($instance['odometer_font'])?>}
+.odometer-value{
+  font-size: <?php _e($instance['odometer_font']);?>;
+  color : <?php _e($instance['counter_color']);?>;
+}
+
+.odometer-desc, .odometer-desc span, .odometer-desc .no-icon {
+  color: <?php _e($instance['desc_color']);?>;
+}
+.odometer-desc .no-icon{
+  padding-top: 15px;
+}
 
 /* @media(min-width:320px) and (max-width:767px){
 .c-no{height:100%;}
