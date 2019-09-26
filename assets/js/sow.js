@@ -11,7 +11,7 @@ jQuery('.sp-floating-btn').each( function(){
 
   if( row_id ){
     rowOffset = jQuery( '#'+ row_id ).offset();
-    scroll_top =  rowOffset.top + 145;
+    scroll_top =  rowOffset.top;
   }
 
   display();
@@ -52,7 +52,7 @@ jQuery("[data-toggle~=modal]").each( function(){
 
     var $modal = jQuery( $button.attr( 'href' ) );
 
-    
+
     // map within the modal
     if( $modal.find( '[data-behaviour~=choropleth-map]' ).length && !$modal.find( '[data-behaviour~=choropleth-map]' ).html() ){
       $modal.find( '[data-behaviour~=choropleth-map]' ).choropleth_map();
