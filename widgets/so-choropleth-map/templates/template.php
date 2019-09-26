@@ -3,7 +3,7 @@
   global $sp_sow;
 
   $data = array();
-
+  /*
   $instance['regions'] = array();
 
   if( isset( $instance['items'] ) ){
@@ -17,6 +17,7 @@
     }
   }
   unset( $instance['items'] );
+  */
 
   if( isset( $instance['markers'] ) ){
     foreach( $instance['markers'] as $key => $marker ){
@@ -26,14 +27,14 @@
     }
   }
 
-  /*
-  echo "<pre>";
-  print_r( $instance );
-  echo "</pre>";
+  $instance['json_url'] = admin_url('admin-ajax.php?action=sp_combine_map_jsons');
 
-  return '';
-  */
+  //echo "<pre>";
+  //print_r( $instance );
+  //echo "</pre>";
+
+
 
 ?>
 
-<div data-regions-url="<?php _e( $this->getJsonURL() );?>" data-json='<?php _e( wp_json_encode( $instance ) )?>' data-behaviour="choropleth-map"></div>
+<div data-json='<?php _e( wp_json_encode( $instance ) )?>' data-behaviour="choropleth-map"></div>

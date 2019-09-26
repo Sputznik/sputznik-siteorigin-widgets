@@ -75,6 +75,11 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
 						),
 					)
 				),
+        'regions' => array(
+          'type'    => 'section',
+          'label'   => __( 'Regions', 'siteorigin-widgets' ),
+          'fields'  => $this->getRegionsFields()
+        ),
         'region-lines' => array(
           'type'  => 'section',
           'label' => __( 'Region Styles', 'siteorigin-widgets' ),
@@ -172,6 +177,70 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
     $array = json_decode( $strJsonFileContents, true );
 
     return $array;
+  }
+
+  /*
+  function getJsons(){
+    $jsons = array( 'countries' => plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' ) );
+    return apply_filters( 'sputznik-sow-jsons', $jsons );;
+  }
+  */
+
+  function getRegionsFields(){
+
+    global $sp_sow;
+
+    $regions = array();
+
+    $jsons = $sp_sow->getMapJsons();
+
+    foreach ( $jsons as $key => $json_url ) {
+
+      $regions[ $key ] = array(
+        'type' 	      => 'repeater',
+        'label'       => __( $key, 'siteorigin-widgets' ),
+        'item_name'   => __( 'Region Item', 'siteorigin-widgets' ),
+        'fields'      => array(
+          'region'    => array(
+            'type'    => 'select',
+            'label'   => __( 'Select Region', 'siteorigin-widgets' ),
+            'options' => $this->getRegionsOptions( $json_url )
+          ),
+          'color' => array(
+            'type' => 'color',
+            'label' => __( 'Choose a color', 'siteorigin-widgets' ),
+            'default' => '#bada55'
+          ),
+          'popup' => array(
+            'type' 	=> 'tinymce',
+            'label' => __( 'Description', 'siteorigin-widgets' )
+          ),
+        )
+      );
+
+
+    }
+
+    return $regions;
+  }
+
+  function getRegionsOptions( $json_file ){
+    $regions = array();
+
+    $strJsonFileContents = file_get_contents( $json_file );
+
+    // Convert to array
+    $array = json_decode( $strJsonFileContents, true );
+
+    if( isset( $array['features'] ) ){
+      foreach( $array['features'] as $row ){
+        if( isset( $row['properties'] ) && isset( $row['properties']['SOVEREIGNT'] ) ){
+          $regions[ $row['properties']['SOVEREIGNT'] ] = $row['properties']['SOVEREIGNT'];
+        }
+      }
+    }
+
+    return $regions;
   }
 
   function getRegions(){

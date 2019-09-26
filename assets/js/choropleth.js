@@ -7,8 +7,8 @@
       var $el 			 = jQuery( this ),
 				data				 = {},
 				geoCountries = {},
-				regions_data = {},
-				regions_url  = $el.data( 'regions-url' );
+				regions_data = {};
+				//regions_url  = $el.data( 'regions-url' );
 
 			if( $el.data('json') ){
 				data = $el.data( 'json' );
@@ -37,7 +37,7 @@
         $map.appendTo( $el );
 			}
 
-      function drawMap(){
+      function drawMap( map_jsons ){
 
 				var zoomLevel = data['map']['desktop']['zoom'],
 					center_lat	= data['map']['desktop']['lat'],
@@ -56,9 +56,21 @@
 
 				drawBase( map, zoomLevel );
 
-				drawRegionBoundaries( map );
+				// DRAW THE LINES FOR EACH REGION AND COLOR ONLY THE SELECTED AREAS
+				jQuery.each( map_jsons, function( slug, map_json ){
 
-				drawSelectedRegions( map );
+					selected_data = {};
+
+					// ITERATE EACH SELECTED DATA TO CHANGE THE STRUCTURE A BIT FOR FASTER ACCESS
+					if( regions_data[ slug ] ){
+						jQuery.each( regions_data[ slug ], function( i, region ){
+							selected_data[ region['region'] ] = region;
+						} );
+					}
+
+					drawRegions( map, map_json, selected_data );
+				});
+
 
 				drawMarkers( map );
 
@@ -75,29 +87,60 @@
 
 			}
 
-			// ADD REGION BOUNDARIES
-			function drawRegionBoundaries( map ){
-				var gjLayerCountryLines = L.geoJson( geoCountries, { style: {
+			function drawRegions( map, geoRegions, selected_data ){
+				// DRAW BOOUNDARY LINES
+				var gjLayerRegionLines = L.geoJson( geoRegions, { style: {
 					"color"		: data['region-lines']['color'] ? data['region-lines']['color'] : '#000000',
 					"weight"	: data['region-lines']['weight'] ? data['region-lines']['weight'] : 1,
 					"opacity"	: data['region-lines']['opacity'] ? data['region-lines']['opacity'] : 1,
 					"fillColor"		: '#ffffff',
 					'fillOpacity'	: 0.8,
 				} } );
-				gjLayerCountryLines.addTo(map);
-				map.setMaxBounds( gjLayerCountryLines.getBounds() );
-			}
+				gjLayerRegionLines.addTo(map);
 
-			// ADD SELECTED REGIONS BY THE USER FROM THE BACKEND
-			function drawSelectedRegions( map ){
-				var gjLayerCountries = L.geoJson( geoCountries, { style: styleRegion, onEachFeature: onEachCountry, filter: matchRegions } );
-        gjLayerCountries.addTo(map);
+				// STYLE THE REGIONS THAT ARE SELECTED WITH SOME COLOR
+				var gjLayerRegion = L.geoJson( geoRegions, { style: styleRegion, onEachFeature: onEachRegion, filter: matchRegions } );
+        gjLayerRegion.addTo(map);
 
-				// ONLY ADD REGIONS THAT ARE AVAILABLE IN THE DATA
+				function styleRegion( feature ){
+					var color = '#311B92';
+					if( selected_data[ feature.properties.SOVEREIGNT ]['color'] ){ color = selected_data[ feature.properties.SOVEREIGNT ]['color']; }
+					return {
+	          fillColor		: color,
+	          weight			: 1,
+	          opacity			: 0.4,
+	          color				: 'black',
+	          dashArray		: '1',
+	          fillOpacity	: 0.8
+	        };
+				}
+
+				function onEachRegion( feature, layer ) {
+	        //CONNECTING TOOLTIP AND POPUPS TO DISTRICTS
+	        layer.on({
+	          mouseover: highlightFeature,
+	          mouseout: resetHighlight
+	          //click: zoomToFeature
+	        });
+
+	        layer.bindTooltip( feature.properties.SOVEREIGNT, {
+	          direction : 'auto',
+	          className : 'countrylabel',
+	          permanent : false,
+	          sticky    : true
+	        } );
+
+					if( selected_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
+						layer.bindPopup( selected_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth: 500, keepInView: true } );
+					}
+				}
+
+				// ONLY ADD THOSE REGIONS THAT ARE AVAILABLE IN THE DATA
 				function matchRegions( feature ) {
-					if( feature.properties && regions_data[ feature.properties.SOVEREIGNT ] ) return true;
+					if( feature.properties && selected_data[ feature.properties.SOVEREIGNT ] ) return true;
 					return false;
 				}
+
 			}
 
 			// ITERATE THROUGH THE LIST OF MARKERS ENTERRED BY THE USER
@@ -137,41 +180,9 @@
 				}
 			}
 
-      function styleRegion( feature ){
-				var color = '#311B92';
-				if( regions_data[ feature.properties.SOVEREIGNT ]['color'] ){ color = regions_data[ feature.properties.SOVEREIGNT ]['color']; }
-				return {
-          fillColor		: color,
-          weight			: 1,
-          opacity			: 0.4,
-          color				: 'black',
-          dashArray		: '1',
-          fillOpacity	: 0.8
-        };
-			}
-
-			function onEachCountry( feature, layer ) {
-        //CONNECTING TOOLTIP AND POPUPS TO DISTRICTS
-        layer.on({
-          mouseover: highlightFeature,
-          mouseout: resetHighlight
-          //click: zoomToFeature
-        });
 
 
-        layer.bindTooltip( feature.properties.SOVEREIGNT, {
-          direction : 'auto',
-          className : 'countrylabel',
-          permanent : false,
-          sticky    : true
-        } );
 
-				if( regions_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
-					layer.bindPopup( regions_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth: 500, keepInView: true } );
-				}
-
-
-      }
 
 			function highlightFeature(e) {
         // REGION HIGHLIGHT ON MOUSEOVER
@@ -208,17 +219,17 @@
 
 				jQuery.ajax({
 				  dataType	: "json",
-				  url				: regions_url,
-				  success		: function( data ){
+				  url				: data['json_url'],
+				  success		: function( response ){
 
-						geoCountries = data;
+						//geoCountries = data;
 
 						// HIDE THE LOADER
 		        $el.find('.loader').hide();
 
 
 						// RENDER THE MAP IN THE CORRECT DOM
-		        drawMap();
+		        drawMap( response );
 					}
 				});
 

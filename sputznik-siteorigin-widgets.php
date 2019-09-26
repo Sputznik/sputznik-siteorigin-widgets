@@ -7,7 +7,7 @@ Version: 1.0.0
 Author: Sputznik
 */
 
-define( 'SP_SOW_VERSION', '1.1.7' ); 
+define( 'SP_SOW_VERSION', time() ); // 1.1.7
 
 class SP_SOW{
 
@@ -15,6 +15,9 @@ class SP_SOW{
     add_filter( 'siteorigin_widgets_widget_folders', array( $this, 'addWidgetFolder' ) );
 
     add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
+
+    add_action( 'wp_ajax_sp_combine_map_jsons', array( $this, 'combineMapJsons' ) );
+    add_action( 'wp_ajax_nopriv_sp_combine_map_jsons', array( $this, 'combineMapJsons' ) );
   }
 
   function addWidgetFolder( $folders ){
@@ -73,6 +76,35 @@ class SP_SOW{
   		<div class="inline-modal-dialog" style="max-width:<?php _e( $modal_width );?>" role="document"><?php echo $modal_content;?></div>
   	</div>
     <?php
+  }
+
+  function getMapJsons(){
+    $jsons = array( 'countries' => plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' ) );
+
+    return apply_filters( 'sputznik-sow-jsons', $jsons );;
+  }
+
+  function combineMapJsons(){
+    $data = array();
+
+    $jsons = $this->getMapJsons();
+
+    foreach( $jsons as $key => $json_file ){
+      $strJsonFileContents = file_get_contents( $json_file );
+
+      // Convert to array
+      $data[ $key ] = json_decode( $strJsonFileContents, true );
+    }
+
+    echo wp_json_encode( $data );
+
+    /*
+    echo "<pre>";
+    print_r( $data );
+    echo "</pre>";
+    */
+
+    wp_die();
   }
 
 }
