@@ -7,7 +7,7 @@ Version: 1.0.0
 Author: Sputznik
 */
 
-define( 'SP_SOW_VERSION', time() ); //1.1.6
+define( 'SP_SOW_VERSION', '1.1.7' ); 
 
 class SP_SOW{
 

@@ -167,7 +167,7 @@
         } );
 
 				if( regions_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
-					layer.bindPopup( regions_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth:600 } );
+					layer.bindPopup( regions_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth: 500, keepInView: true } );
 				}
 
 
