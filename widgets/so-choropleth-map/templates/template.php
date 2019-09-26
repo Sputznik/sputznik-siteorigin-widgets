@@ -3,21 +3,6 @@
   global $sp_sow;
 
   $data = array();
-  /*
-  $instance['regions'] = array();
-
-  if( isset( $instance['items'] ) ){
-    foreach( $instance['items'] as $item ){
-      if( isset( $item['region'] ) ){
-        $data[ $item['region'] ] = $item;
-
-        $instance[ 'regions' ][ $item['region'] ] = $item;
-
-      }
-    }
-  }
-  unset( $instance['items'] );
-  */
 
   if( isset( $instance['markers'] ) ){
     foreach( $instance['markers'] as $key => $marker ){
@@ -32,9 +17,6 @@
   //echo "<pre>";
   //print_r( $instance );
   //echo "</pre>";
-
-
-
 ?>
 
 <div data-json='<?php _e( wp_json_encode( $instance ) )?>' data-behaviour="choropleth-map"></div>

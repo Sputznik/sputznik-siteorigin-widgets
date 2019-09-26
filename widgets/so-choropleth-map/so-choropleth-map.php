@@ -27,7 +27,9 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
       //The $control_options array, which is passed through to WP_Widget
       array(),
       //The $form_options array, which describes the form fields used to configure SiteOrigin widgets. We'll explain these in more detail later.
+
       array(
+        /*
         'items' => array(
 					'type' 	=> 'repeater',
 					'label' => __( 'Regions' , 'siteorigin-widgets' ),
@@ -49,6 +51,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
 						),
 					)
 				),
+        */
         'markers' => array(
 					'type' 	=> 'repeater',
 					'label' => __( 'Markers' , 'siteorigin-widgets' ),
@@ -162,6 +165,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
     return '';
   }
 
+  /*
   function getJsonURL(){
     $json_url = plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' );
     return apply_filters( 'sputznik-sow-json-url', $json_url );
@@ -243,6 +247,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
     return $regions;
   }
 
+  /*
   function getRegions(){
 
     $regions = array();
@@ -259,6 +264,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
 
     return $regions;
   }
+  */
 
 }
 

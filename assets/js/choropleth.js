@@ -8,23 +8,14 @@
 				data				 = {},
 				geoCountries = {},
 				regions_data = {};
-				//regions_url  = $el.data( 'regions-url' );
 
-			if( $el.data('json') ){
-				data = $el.data( 'json' );
-			}
+			if( $el.data('json') ){ data = $el.data( 'json' ); }
 
-			if( data['region-lines'] == undefined ){
-				data['region-lines'] = {};
-			}
+			if( data['region-lines'] == undefined ){ data['region-lines'] = {}; }
 
-			if( data[ 'regions' ] ){
-				regions_data = data[ 'regions' ];
-			}
+			if( data[ 'regions' ] ){ regions_data = data[ 'regions' ]; }
 
-
-
-      // CREATE ELEMENTS ON THE FLY
+			// CREATE ELEMENTS ON THE FLY
       function createElements(){
 
         var $loader = jQuery( document.createElement( 'div' ) );
@@ -180,15 +171,10 @@
 				}
 			}
 
-
-
-
-
+			// REGION HIGHLIGHT ON MOUSEOVER
 			function highlightFeature(e) {
-        // REGION HIGHLIGHT ON MOUSEOVER
-        var layer = e.target;
-
-        layer.setStyle( {
+				var layer = e.target;
+				layer.setStyle( {
           weight: 3,
           color: 'yellow',
           opacity: 0.9
@@ -196,9 +182,9 @@
         if ( !L.Browser.ie && !L.Browser.opera ) { layer.bringToFront(); }
       }
 
+			// RESET HIGHLIGHT ON MOUSEOUT
       function resetHighlight(e) {
-        // RESET HIGHLIGHT ON MOUSEOUT
-        var layer = e.target;
+				var layer = e.target;
         layer.setStyle({
           weight	: 1,
           color		: 'black',
@@ -206,8 +192,8 @@
         });
       }
 
+			// PROBABLY THE MAP VARIABLE NEEDS TO BE A GLOBAL VARIABLE HERE
       function zoomToFeature(e) {
-        // PROBABLY THE MAP VARIABLE NEEDS TO BE A GLOBAL VARIABLE HERE
         map.fitBounds(e.target.getBounds());
       }
 
@@ -222,11 +208,8 @@
 				  url				: data['json_url'],
 				  success		: function( response ){
 
-						//geoCountries = data;
-
 						// HIDE THE LOADER
 		        $el.find('.loader').hide();
-
 
 						// RENDER THE MAP IN THE CORRECT DOM
 		        drawMap( response );
