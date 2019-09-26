@@ -2,9 +2,13 @@
 
   global $sp_sow;
 
-  $widget_id = $sp_sow->getUniqueID( $instance );
+  $widget_id = 'modal-'.$sp_sow->getUniqueID( $instance );
 
-  $anchor_link = $instance['is_modal'] ? '#modal-'.$widget_id : sow_esc_url( $instance['link'] );
+  if( isset( $instance['modal_id'] ) && $instance['modal_id'] ){
+    $widget_id = $instance['modal_id'];
+  }
+
+  $anchor_link = $instance['is_modal'] ? '#'.$widget_id : sow_esc_url( $instance['link'] );
 
   $parent_classes = array( 'sp-btn-parent' );
 
@@ -27,7 +31,7 @@
 <!-- MODALS FROM THE INLINE POSTS -->
 <?php
   if( function_exists( 'siteorigin_panels_render' ) ){
-    $sp_sow->modal( 'modal-'.$widget_id, siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] ), $instance['modal_dialog_width'] );
+    $sp_sow->modal( $widget_id, siteorigin_panels_render( 'w'.$widget_id, true, $instance['modal_builder'] ), $instance['modal_dialog_width'] );
   }
 ?>
 <!-- END OF MODALS -->

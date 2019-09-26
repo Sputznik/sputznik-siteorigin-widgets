@@ -65,6 +65,15 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
 						)
 					),
 				),
+        'modal_id'  =>  array(
+          'type'    =>  'text',
+          'label'   =>  'Enter the modal ID',
+          'default' =>  '',
+          'state_handler' => array(
+  					'is_modal[active]' 	=> array('show'),
+  					'_else[is_modal]' 	=> array('hide'),
+  				),
+        ),
         'modal_dialog_width' => array(
 					'type' 	=> 'multi-measurement',
 					'label' => __( 'Modal Dialog Width', 'siteorigin-widgets'),
