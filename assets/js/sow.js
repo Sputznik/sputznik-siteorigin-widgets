@@ -11,7 +11,7 @@ jQuery('.sp-floating-btn').each( function(){
 
   if( row_id ){
     rowOffset = jQuery( '#'+ row_id ).offset();
-    scroll_top =  rowOffset.top;
+    scroll_top =  rowOffset.top - 50;
   }
 
   display();
