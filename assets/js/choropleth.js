@@ -79,6 +79,9 @@
 			}
 
 			function drawRegions( map, geoRegions, selected_data ){
+
+				console.log(selected_data);
+
 				// DRAW BOOUNDARY LINES
 				var gjLayerRegionLines = L.geoJson( geoRegions, { style: {
 					"color"		: data['region-lines']['color'] ? data['region-lines']['color'] : '#000000',
@@ -114,12 +117,18 @@
 	          //click: zoomToFeature
 	        });
 
-	        layer.bindTooltip( feature.properties.SOVEREIGNT, {
+					var label = feature.properties.SOVEREIGNT;
+					if( selected_data[ feature.properties.SOVEREIGNT ] ['label'] ){
+						label = selected_data[ feature.properties.SOVEREIGNT ] ['label'];
+					}
+
+	        layer.bindTooltip( label, {
 	          direction : 'auto',
 	          className : 'countrylabel',
 	          permanent : false,
 	          sticky    : true
 	        } );
+
 
 					if( selected_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
 						layer.bindPopup( selected_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth: 500, keepInView: true } );
@@ -173,6 +182,7 @@
 
 			// REGION HIGHLIGHT ON MOUSEOVER
 			function highlightFeature(e) {
+
 				var layer = e.target;
 				layer.setStyle( {
           weight: 3,
@@ -180,6 +190,7 @@
           opacity: 0.9
         } );
         if ( !L.Browser.ie && !L.Browser.opera ) { layer.bringToFront(); }
+
       }
 
 			// RESET HIGHLIGHT ON MOUSEOUT

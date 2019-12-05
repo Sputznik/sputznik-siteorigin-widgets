@@ -210,6 +210,10 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
             'label'   => __( 'Select Region', 'siteorigin-widgets' ),
             'options' => $this->getRegionsOptions( $json_url )
           ),
+          'label' => array(
+            'type' => 'text',
+            'label' => __('Label', 'siteorigin-widgets'),
+          ),
           'color' => array(
             'type' => 'color',
             'label' => __( 'Choose a color', 'siteorigin-widgets' ),
