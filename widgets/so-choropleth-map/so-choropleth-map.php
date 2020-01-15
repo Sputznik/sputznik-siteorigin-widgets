@@ -81,6 +81,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
         'regions' => array(
           'type'    => 'section',
           'label'   => __( 'Regions', 'siteorigin-widgets' ),
+          'item_name'  => __( 'Repeater item', 'siteorigin-widgets' ),
           'fields'  => $this->getRegionsFields()
         ),
         'region-lines' => array(
@@ -204,6 +205,11 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
         'type' 	      => 'repeater',
         'label'       => __( $key, 'siteorigin-widgets' ),
         'item_name'   => __( 'Region Item', 'siteorigin-widgets' ),
+        'item_label' => array(
+            'selector'     => "[id*='region']",
+            'update_event' => 'change',
+            'value_method' => 'val'
+        ),
         'fields'      => array(
           'region'    => array(
             'type'    => 'select',
