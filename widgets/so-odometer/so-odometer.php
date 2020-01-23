@@ -1,6 +1,6 @@
 <?php
 /*
-Widget Name: Sputznik Odometer
+Widget Name: Sputznik Counter
 Description: Display one or more animated odometer statistics in a multi-column grid.
 Author: Stephen Anil, Sputznik
 Author URI: https://sputznik.com/
@@ -13,8 +13,8 @@ class SP_ODOMETER extends SiteOrigin_Widget{
     $form_options = array(
       'odometer_repeater' => array(
         'type'      => 'repeater',
-        'label'     => 'Sputznik Odometer',
-        'item_name' =>  __( 'Add Odometer', 'siteorigin-widgets' ),
+        'label'     => 'Counters',
+        'item_name' =>  __( 'Add Counter', 'siteorigin-widgets' ),
         'fields'    =>  array(
           'odometer_icon' => array(
             'type' => 'icon',
@@ -27,7 +27,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
           ),
           'odometer_limit'  =>  array(
             'type'  =>  'text',
-            'label' =>  __( 'Odometer Limit', 'siteorigin-widgets' ),
+            'label' =>  __( 'Counter Value', 'siteorigin-widgets' ),
             'default' =>  '50',
           ),
           'odometer_prefix' => array(
@@ -39,7 +39,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
           'odometer_suffix' => array(
             'type'  =>  'text',
             'label' =>  __( 'Suffix', 'siteorigin-widgets' ),
-            'description' =>  __( 'The suffix string for the odometer stats. Examples include strings like hr for hours or m for million.',
+            'description' =>  __( 'The suffix string for the counter. Examples include strings like hr for hours or m for million.',
                               'siteorigin-widgets' )
           ),
 
@@ -59,8 +59,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
         'counter_color' => array(
           'type' => 'color',
           'label' => __( 'Choose a Color for Counter, Suffix & Prefix', 'widget-form-fields-text-domain' ),
-          'default' => '#fff',
-          'description' => __( 'Color for ', 'siteorigin-widgets' )
+          'default' => '#333',
         ),
         'desc_color' => array(
           'type' => 'color',
@@ -69,13 +68,13 @@ class SP_ODOMETER extends SiteOrigin_Widget{
         ),
         'odometer_delay' => array(
           'type' => 'number',
-          'label' => __( 'Odometer Delay', 'siteorigin-widgets' ),
+          'label' => __( 'Counter Delay', 'siteorigin-widgets' ),
           'default' => 7000,
           'description' =>  __( 'Number of seconds that the animation lasts. Example, 2seconds = 2000 milliseconds','siteorigin-widgets' )
         ),
       'odometer_normal' => array(
         'type' => 'slider',
-        'label' => __( 'Odometers per row', 'siteorigin-widgets' ),
+        'label' => __( 'Counters per row', 'siteorigin-widgets' ),
         'default' => 1,
         'min' => 1,
         'max' => 4,
@@ -83,7 +82,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
       ),
       'odometer_tablet' => array(
         'type' => 'slider',
-        'label' => __( 'Odometers per row in Tablet Resolution ', 'siteorigin-widgets' ),
+        'label' => __( 'Counters per row in Tablet Resolution ', 'siteorigin-widgets' ),
         'default' => 1,
         'min' => 1,
         'max' => 4,
@@ -91,7 +90,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
       ),
       'odometer_mobile' => array(
         'type' => 'slider',
-        'label' => __( 'Odometers per row in Mobile Resolution', 'siteorigin-widgets' ),
+        'label' => __( 'Counters per row in Mobile Resolution', 'siteorigin-widgets' ),
         'default' => 1,
         'min' => 1,
         'max' => 4,
@@ -100,7 +99,7 @@ class SP_ODOMETER extends SiteOrigin_Widget{
     );
     parent::__construct(
       'so-odometer',
-      __('Sputznik Odometer','siteorigin-widgets'),
+      __('Sputznik Counter','siteorigin-widgets'),
       array(
         'description' =>  __('Display one or more animated odometer statistics in a multi-column grid.','siteorigin-widgets'),
         'help'        =>  ''

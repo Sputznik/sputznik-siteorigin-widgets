@@ -1,6 +1,6 @@
 <?php
 /*
-Widget Name: Sputznik Choropleth Map
+Widget Name: Sputznik Map (Leaflet)
 Description: Map Widget that displays all the countries
 Author: Samuel Thomas, Sputznik
 Author URI: https://sputznik.com/
@@ -17,27 +17,30 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
       'markers' => array(
         'type' 	=> 'repeater',
         'label' => __( 'Markers' , 'siteorigin-widgets' ),
-        'description' => 'Customize map marker icons and popup descriptions. ',
+        'description' => 'Add markers and customize icons and popup descriptions',
         'item_name'  => __( 'Marker', 'siteorigin-widgets' ),
         'fields' => array(
           'icon' => array(
-            'type' => 'media',
-            'library' => 'image',
-            'label'   => __(' Marker Icon', 'siteorigin-widgets' ),
+            'type'        => 'media',
+            'library'     => 'image',
+            'label'       => __(' Marker Icon', 'siteorigin-widgets' ),
+            'description' => "Upload an image of 30px by 30px, or refer to <a target='_blank' href='https://sputznik.com'>this link</a>",
           ),
           'lat' => array(
             'type'    => 'text',
             'default' => '0',
-            'label'   => 'Latitude'
+            'label'   => 'Latitude',
+            'description' => "If you don't know the lat/long, <a href='https://www.wikihow.com/Get-Latitude-and-Longitude-from-Google-Maps'>click here</a> to learn how to get it from google maps."
           ),
           'lng' => array(
             'type'    => 'text',
             'default' => '0',
             'label'   => 'Longitude'
           ),
-          'popup' => array(
+          'popup'   => array(
             'type' 	=> 'tinymce',
-            'label' => __( 'Popup Description', 'siteorigin-widgets' )
+            'label' => __( 'Popup Description', 'siteorigin-widgets' ),
+            'description' => "If description is left empty, there will be no popup",
           ),
         )
       ),
@@ -54,15 +57,19 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
         'label' => __( 'Region Styles', 'siteorigin-widgets' ),
         'fields' => array(
           'color' => array(
-            'type'    => 'color',
-            'default' => '#000000',
-            'label'   => __( 'Boundary Color', 'siteorigin-widgets' )
+            'type'        => 'color',
+            'default'     => '#000000',
+            'label'       => __( 'Boundary Color', 'siteorigin-widgets' ),
+            'description' => 'Choose a color for borders of all regions',
           ),
+          /*
+          REMOVED AS IT SEEMED LIKE AN UNNECESSARY FIELD
           'opacity' => array(
             'type'    => 'number',
             'default' => 1,
             'label'   => __( 'Opacity', 'siteorigin-widgets' )
           ),
+          */
         )
       ),
       'map' => array(
@@ -71,30 +78,32 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
         'hide'    => true,
         'fields'  => array(
           'base_url'  => array(
-            'type'    => 'text',
-            'default' => 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-            'label'   => 'Base Map URL'
+            'type'        => 'text',
+            'default'     => 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+            'label'       => 'Base Map URL',
+            'description' => 'Find more options for base maps <a target="_blank" href="https://leaflet-extras.github.io/leaflet-providers/preview/">here</a>'
           ),
           'attribution' => array(
-            'type'    => 'text',
-            'default' => 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors & <a href="http://datameet.org" target="_blank">Data{Meet}</a>',
-            'label'   => 'Map Attribution'
+            'type'        => 'text',
+            'default'     => 'ESRI World Light Gray | Map data © <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors',
+            'label'       => 'Map Attribution',
+            'description' => 'If you are using any other base map, provide the appropriate attribution'
           ),
           'desktop' => array(
             'type'    => 'section',
-            'label'   => __( 'Desktop Styles', 'siteorigin-widgets' ),
+            'label'   => __( 'Desktop Specific Styles', 'siteorigin-widgets' ),
             'hide'    => true,
             'fields'  => $this->get_responsive_common_fields()
           ),
           'tablet' => array(
             'type'    => 'section',
-            'label'   => __( 'Tablet Styles', 'siteorigin-widgets' ),
+            'label'   => __( 'Tablet Specific Styles', 'siteorigin-widgets' ),
             'hide'    => true,
             'fields'  => $this->get_responsive_common_fields()
           ),
           'mobile' => array(
             'type'    => 'section',
-            'label'   => __( 'Mobile Styles', 'siteorigin-widgets' ),
+            'label'   => __( 'Mobile Specific Styles', 'siteorigin-widgets' ),
             'hide'    => true,
             'fields'  => $this->get_responsive_common_fields()
           )
@@ -110,7 +119,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
       'so-choropleth-map',
 
       // The name of the widget for display purposes.
-      __( 'Sputznik Choropleth Map ', 'siteorigin-widgets' ),
+      __( 'Sputznik Map (Leaflet) ', 'siteorigin-widgets' ),
 
       // The $widget_options array, which is passed through to WP_Widget.
       // It has a couple of extras like the optional help URL, which should link to your sites help or support page.
@@ -129,19 +138,22 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
   function get_responsive_common_fields(){
     return array(
       'zoom'  => array(
-        'type'    => 'number',
-        'default' => 2,
-        'label'   => 'Zoom Level'
+        'type'        => 'number',
+        'default'     => 2,
+        'label'       => 'Zoom Level',
+        'description' => 'The level of zoom when the map opens for the first time'
       ),
       'lat' => array(
         'type'    => 'text',
         'default' => '0',
-        'label'   => 'Latitude of Centre'
+        'label'   => 'Latitude of Centre',
+        'description' => 'Latitude of the centre of the map'
       ),
       'lng' => array(
         'type'    => 'text',
         'default' => '0',
-        'label'   => 'Longitude of Centre'
+        'label'   => 'Longitude of Centre',
+        'description' => 'Longitude of the centre of the map'
       ),
     );
   }
@@ -182,17 +194,19 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
             'options' => $this->getRegionsOptions( $json_url )
           ),
           'label' => array(
-            'type' => 'text',
-            'label' => __('Label', 'siteorigin-widgets'),
+            'type'        => 'text',
+            'label'       => __('Label', 'siteorigin-widgets'),
+            'description' => 'Use this to replace the name of the region with some custom text, if required'
           ),
           'color' => array(
-            'type' => 'color',
-            'label' => __( 'Choose a color', 'siteorigin-widgets' ),
+            'type'    => 'color',
+            'label'   => __( 'Choose a color for the region', 'siteorigin-widgets' ),
             'default' => '#bada55'
           ),
           'popup' => array(
-            'type' 	=> 'tinymce',
-            'label' => __( 'Description', 'siteorigin-widgets' )
+            'type' 	      => 'tinymce',
+            'label'       => __( 'Popup Description', 'siteorigin-widgets' ),
+            'description' => "If description is left empty, there will be no popup",
           ),
         )
       );

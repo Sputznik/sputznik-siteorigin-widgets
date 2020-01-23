@@ -16,7 +16,7 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
       // The unique id for your widget.
       'so-multi-button',
       // The name of the widget for display purposes.
-      __( 'Multi-purpose Button', 'siteorigin-widgets' ),
+      __( 'Sputznik Multi-purpose Button', 'siteorigin-widgets' ),
       // The $widget_options array, which is passed through to WP_Widget.
       // It has a couple of extras like the optional help URL, which should link to your sites help or support page.
       array(
@@ -28,14 +28,15 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
       //The $form_options array, which describes the form fields used to configure SiteOrigin widgets. We'll explain these in more detail later.
       array(
         'btn_text' => array(
-            'type'    => 'text',
-            'label'   => __('Button Text','siteorigin-widget'),
-            'default' => 'Button',
+          'type'    => 'text',
+          'label'   => __('Button Text','siteorigin-widget'),
+          'default' => 'Button',
         ),
         'is_floating' => array(
-					'type'     => 'checkbox',
-					'label'    => __( 'Is Floating Button', 'siteorigin-widgets' ),
-					'default'  => false,
+					'type'          => 'checkbox',
+					'label'         => __( 'Sticky Button', 'siteorigin-widgets' ),
+          'description'   => 'Button will stick to the bottom margin',
+					'default'       => false,
 					'state_emitter' => array(
 						'callback' 	  => 'conditional',
 						'args' 	=> array(
@@ -45,9 +46,10 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
 					),
 				),
         'target_id'  =>  array(
-          'type'    =>  'text',
-          'label'   =>  'Enter the target ID',
-          'default' =>  'sample',
+          'type'        => 'text',
+          'label'       => 'Target ID',
+          'description' => 'The button will appear only when this html ID is visible while scrolling. Add this ID to any SiteOrigin Row/Widget on this page.',
+          'default'     => 'sample',
           'state_handler' => array(
   					'is_floating[active]' 	=> array('show'),
   					'_else[is_floating]' 	=> array('hide'),
@@ -56,6 +58,7 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
         'is_modal' => array(
 					'type' => 'checkbox',
 					'label' => __( 'Open Modal Box', 'siteorigin-widgets' ),
+          'description' => 'Instead of redirecting, clicking on the button will open a popup',
 					'default' => false,
 					'state_emitter' => array(
 						'callback' 	=> 'conditional',
@@ -67,16 +70,18 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
 				),
         'modal_id'  =>  array(
           'type'    =>  'text',
-          'label'   =>  'Enter the modal ID',
-          'default' =>  '',
+          'label'   =>  'Modal ID',
+          'description' => 'If you would like this modal to be opened by other links/buttons on this page then give a unique ID here',
+          'default' =>  'modal-button-test',
           'state_handler' => array(
   					'is_modal[active]' 	=> array('show'),
   					'_else[is_modal]' 	=> array('hide'),
   				),
         ),
         'modal_dialog_width' => array(
-					'type' 	=> 'multi-measurement',
-					'label' => __( 'Modal Dialog Width', 'siteorigin-widgets'),
+					'type' 	       => 'multi-measurement',
+					'label'        => __( 'Modal Dialog Width', 'siteorigin-widgets'),
+          'description'  => 'The width of the popup box',
           'autofill'  =>  true,
           'default' => '600px',
           'measurements' => array(
