@@ -1,15 +1,29 @@
 <?php
 /*
-Plugin Name: SiteOrigin Widgets by Sputznik
-Plugin URI:
-Description:
-Version: 1.0.0
-Author: Sputznik
+  Plugin Name: Sputznik SiteOrigin Widgets
+  Plugin URI: https://sputznik.com/
+  Description: SiteOrigin Addon widgets 
+  Version: 1.0.0
+  Author: Sputznik
+  Author URI: https://sputznik.com/
 */
 
 define( 'SP_SOW_VERSION', time() ); // 1.1.7
 
-class SP_SOW{
+class SPUTZNIK_SOW{
+
+  private static $instance = null;
+
+	// SINGLETON DESIGN PATTERN
+	public static function getInstance(){
+    if( self::$instance == null ){ self::$instance = array(); }
+    $class = get_called_class();
+    if( !isset( self::$instance[ $class ] ) ){
+      // new $class() will work too
+      self::$instance[ $class ] = new static();
+    }
+    return self::$instance[ $class ];
+	}
 
   function __construct(){
     add_filter( 'siteorigin_widgets_widget_folders', array( $this, 'addWidgetFolder' ) );
@@ -58,7 +72,6 @@ class SP_SOW{
     global $wp_widget_factory;
 
     //echo serialize( $panels_data );
-
     //wp_die();
 
     // LOAD MAP ASSETS ONLY WHEN THE WIDGET IS ACTIVE AND HAS BEEN USED IN THE Page
@@ -80,7 +93,6 @@ class SP_SOW{
 
   function getMapJsons(){
     $jsons = array( 'countries' => plugins_url( '/sputznik-siteorigin-widgets/assets/js/countries.json' ) );
-
     return apply_filters( 'sputznik-sow-jsons', $jsons );;
   }
 
@@ -109,5 +121,7 @@ class SP_SOW{
 
 }
 
-global $sp_sow;
-$sp_sow = new SP_SOW;
+SPUTZNIK_SOW::getInstance();
+
+//global $sp_sow;
+//$sp_sow = new SP_SOW;

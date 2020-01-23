@@ -1,10 +1,10 @@
 <?php
 /*
-Widget Name: Multi-purpose Button
-Description: Multi-purpose Button that can be floating in nature and open a modal box
-Author: Samuel Thomas, Sputznik
-Author URI: https://sputznik.com
-Widget URI:
+  Widget Name: Sputznik Multi-purpose Button
+  Description: Multi-purpose button that can be floating in nature or open a modal box
+  Author: Samuel Thomas, Sputznik
+  Author URI: https://sputznik.com
+  Widget URI:
 */
 
 class SP_MULTI_BUTTON extends SiteOrigin_Widget{
@@ -120,7 +120,7 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
   				),
         ),
       ),
-      plugin_dir_path(__FILE__).'/widgets/so-floating-button'
+      plugin_dir_path(__FILE__).'/widgets/so-multi-button'
     );
   }
 

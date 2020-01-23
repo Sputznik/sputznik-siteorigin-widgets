@@ -1,6 +1,6 @@
 <?php
 
-  global $sp_sow;
+  $sp_sow = SPUTZNIK_SOW::getInstance();
 
   $widget_id = 'modal-'.$sp_sow->getUniqueID( $instance );
 

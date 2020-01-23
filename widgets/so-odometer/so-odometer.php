@@ -3,7 +3,7 @@
 Widget Name: Sputznik Odometer
 Description: Display one or more animated odometer statistics in a multi-column grid.
 Author: Stephen Anil, Sputznik
-Author URI: http://www.sputznik.com
+Author URI: https://sputznik.com/
 Widget URI:
 Video URI:
 */

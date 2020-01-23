@@ -1,6 +1,6 @@
 <?php
 
-  global $sp_sow;
+  $sp_sow = SPUTZNIK_SOW::getInstance();
 
   $data = array();
 

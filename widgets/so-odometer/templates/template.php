@@ -2,7 +2,7 @@
   $odometer_repeater = $instance['odometer_repeater'];
   $odometer_delay = $instance['odometer_delay'];
   // UNIQUE ID OF THE WIDGET
-  global $sp_sow;
+  $sp_sow = SPUTZNIK_SOW::getInstance();
   $widget_id = 'sow-odometer-'.$sp_sow->getUniqueID( $instance );
   ?>
       	<div class="odometer-wrapper" data-delay='<?php _e( $odometer_delay );?>' data-behaviour="sp-odometer"  id="<?php _e( $widget_id ); ?>">
