@@ -17,7 +17,7 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
       'markers' => array(
         'type' 	=> 'repeater',
         'label' => __( 'Markers' , 'siteorigin-widgets' ),
-        'description' => 'Sample desc text',
+        'description' => 'Customize map marker icons and popup descriptions. ',
         'item_name'  => __( 'Marker', 'siteorigin-widgets' ),
         'fields' => array(
           'icon' => array(
