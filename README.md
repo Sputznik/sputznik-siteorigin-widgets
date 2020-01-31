@@ -12,3 +12,8 @@ This plugin provides extra widgets for the Siteorigin Page Builder. The current 
 2. **Counters:** If you wish to show important numbers/stats on the page, you can use this widget to **"count up"** to a given number
 3. **Simple Mapmaker:** This widget allows you to create a simple web map using leaflet, with a base layer (such as openstreetmap) and custom map markers. You can customize marker icons and popup descriptions. The widget also includes country borders that you can shade with a chosen color and give a label and description. 
 
+## Installation
+1. Install and activate the required plugins SiteOrigin Widgets Bundle.
+2. Unzip the downloaded livemesh-so-widgets.zip file and upload to the /wp-content/plugins/ directory or install the Sputznik SiteOrigin Widgets plugin from WordPress repository. Activate the plugin through the ‘Plugins’ menu in WordPress.
+3. Enable all the widgets you need from Plugins > SiteOrigin Widgets.
+4. If you need page builder functions, install and activate the optional plugin Page Builder by SiteOrigin.
