@@ -4,7 +4,7 @@ These widgets features huge collection of premium, easy to use yet highly functi
 
 **Important:** You will require the Siteorigin Page Builder plugin and the Siteorigin Widgets Bundle plugin already activated before using this plugin. After activating this plugin, you will have to activate the widgets you want to use from Plugins > Siteorigin Widgets settings
 
-This plugin is brought to you by Sputznik, a web development firm working on WordPress for about a decade.
+> This plugin is brought to you by Sputznik, a web development firm working on WordPress for about a decade.
 
 This plugin provides extra widgets for the Siteorigin Page Builder. The current version of the plugin includes the following widgets-
 
