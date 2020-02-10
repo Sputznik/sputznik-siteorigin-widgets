@@ -27,34 +27,37 @@
           <?php } ?>
         </div>
 <style>
-.odometer-wrapper{
+<?php _e( '#'.$widget_id );?>.odometer-wrapper{
   display: grid;
   grid-template-columns: repeat( <?php _e( $instance['odometer_normal'] ); ?> ,1fr);
   grid-gap: 10px;
   height:100%;
 }
 @media(max-width:767px){
-  .odometer-wrapper{
+  <?php _e( '#'.$widget_id );?>.odometer-wrapper{
     width: 100%;
     grid-template-columns: repeat( <?php _e( $instance['odometer_mobile'] ); ?> ,1fr);
   }
 }
 @media only screen and (min-width:768px) and (max-width:768px){
-  .odometer-wrapper{
+  <?php _e( '#'.$widget_id );?>.odometer-wrapper{
     width: 100%;
     grid-template-columns: repeat( <?php _e( $instance['odometer_tablet'] ); ?> ,1fr);
   }
 }
-.odometer-wrapper .odometer-suffix,.odometer-wrapper .odometer-prefix{
+<?php _e( '#'.$widget_id );?>.odometer-wrapper .odometer-suffix,
+<?php _e( '#'.$widget_id );?>.odometer-wrapper .odometer-prefix{
   font-size: <?php _e($instance['odometer_font']);?>;
   color: <?php _e($instance['counter_color']);?>;
 }
-.odometer-value{
+<?php _e( '#'.$widget_id );?> .odometer-value{
   font-size: <?php _e($instance['odometer_font']);?>;
   color : <?php _e($instance['counter_color']);?>;
 }
 
-.odometer-desc, .odometer-desc span, .odometer-desc .no-icon {
+<?php _e( '#'.$widget_id );?> .odometer-desc,
+<?php _e( '#'.$widget_id );?> .odometer-desc span,
+<?php _e( '#'.$widget_id );?> .odometer-desc .no-icon {
   color: <?php _e($instance['desc_color']);?>;
 }
 .odometer-desc .no-icon{
