@@ -43,7 +43,7 @@ jQuery("[data-behaviour~=inline-modal]").each( function(){
 
 });
 
-jQuery("[data-toggle~=modal]").each( function(){
+jQuery("[data-toggle~=sow-modal]").each( function(){
 
   var $button = jQuery( this );
 
@@ -51,7 +51,6 @@ jQuery("[data-toggle~=modal]").each( function(){
     ev.preventDefault();
 
     var $modal = jQuery( $button.attr( 'href' ) );
-
 
     // map within the modal
     if( $modal.find( '[data-behaviour~=choropleth-map]' ).length && !$modal.find( '[data-behaviour~=choropleth-map]' ).html() ){

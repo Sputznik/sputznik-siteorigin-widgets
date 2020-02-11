@@ -124,6 +124,16 @@ class SP_MULTI_BUTTON extends SiteOrigin_Widget{
   					'_else[is_floating]' 	=> array( 'show' ),
   				),
         ),
+        'btn_text_color' => array(
+          'type' => 'color',
+          'label' => __( 'Button Text Colour', 'siteorigin-widgets' ),
+          'default' => '#ffffff'
+        ),
+        'btn_bg_color' => array(
+          'type' => 'color',
+          'label' => __( 'Button Background Colour', 'siteorigin-widgets' ),
+          'default' => '#000000'
+        ),
       ),
       plugin_dir_path(__FILE__).'/widgets/so-multi-button'
     );

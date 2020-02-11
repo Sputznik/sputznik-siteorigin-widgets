@@ -2,7 +2,7 @@
 /*
   Plugin Name: Sputznik SiteOrigin Widgets
   Plugin URI: https://sputznik.com/
-  Description: SiteOrigin Addon widgets 
+  Description: SiteOrigin Addon widgets
   Version: 1.0.0
   Author: Sputznik
   Author URI: https://sputznik.com/
