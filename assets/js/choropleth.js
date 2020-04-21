@@ -98,7 +98,7 @@
 
 				function styleRegion( feature ){
 					var color = '#311B92';
-					if( selected_data[ feature.properties.SOVEREIGNT ]['color'] ){ color = selected_data[ feature.properties.SOVEREIGNT ]['color']; }
+					if( selected_data[ feature.properties.NAME ]['color'] ){ color = selected_data[ feature.properties.NAME ]['color']; }
 					return {
 	          fillColor		: color,
 	          weight			: 1,
@@ -117,9 +117,9 @@
 	          //click: zoomToFeature
 	        });
 
-					var label = feature.properties.SOVEREIGNT;
-					if( selected_data[ feature.properties.SOVEREIGNT ] ['label'] ){
-						label = selected_data[ feature.properties.SOVEREIGNT ] ['label'];
+					var label = feature.properties.NAME;
+					if( selected_data[ feature.properties.NAME ] ['label'] ){
+						label = selected_data[ feature.properties.NAME ] ['label'];
 					}
 
 	        layer.bindTooltip( label, {
@@ -130,14 +130,14 @@
 	        } );
 
 
-					if( selected_data[ feature.properties.SOVEREIGNT ] ['popup'] ){
-						layer.bindPopup( selected_data[ feature.properties.SOVEREIGNT ] ['popup'], { maxWidth: 500, keepInView: true } );
+					if( selected_data[ feature.properties.NAME ] ['popup'] ){
+						layer.bindPopup( selected_data[ feature.properties.NAME ] ['popup'], { maxWidth: 500, keepInView: true } );
 					}
 				}
 
 				// ONLY ADD THOSE REGIONS THAT ARE AVAILABLE IN THE DATA
 				function matchRegions( feature ) {
-					if( feature.properties && selected_data[ feature.properties.SOVEREIGNT ] ) return true;
+					if( feature.properties && selected_data[ feature.properties.NAME ] ) return true;
 					return false;
 				}
 
