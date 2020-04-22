@@ -227,8 +227,8 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
 
     if( isset( $array['features'] ) ){
       foreach( $array['features'] as $row ){
-        if( isset( $row['properties'] ) && isset( $row['properties']['SOVEREIGNT'] ) ){
-          $regions[ $row['properties']['SOVEREIGNT'] ] = $row['properties']['SOVEREIGNT'];
+        if( isset( $row['properties'] ) && isset( $row['properties']['NAME'] ) ){
+          $regions[ $row['properties']['NAME'] ] = $row['properties']['NAME'];
         }
       }
     }

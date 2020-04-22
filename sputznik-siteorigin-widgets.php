@@ -123,5 +123,5 @@ class SPUTZNIK_SOW{
 
 SPUTZNIK_SOW::getInstance();
 
-//global $sp_sow;
-//$sp_sow = new SP_SOW;
+global $sp_sow;
+$sp_sow = new SPUTZNIK_SOW;
