@@ -182,11 +182,10 @@
 
 			// REGION HIGHLIGHT ON MOUSEOVER
 			function highlightFeature(e) {
-
 				var layer = e.target;
 				layer.setStyle( {
           weight: 3,
-          color: 'yellow',
+          color: data['region-lines']['hover_color'] ? data['region-lines']['hover_color'] : '#FFFF00',
           opacity: 0.9
         } );
         if ( !L.Browser.ie && !L.Browser.opera ) { layer.bringToFront(); }

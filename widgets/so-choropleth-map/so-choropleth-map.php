@@ -62,6 +62,12 @@ class SP_CHOROPLETH_MAP_WIDGET extends SiteOrigin_Widget{
             'label'       => __( 'Boundary Color', 'siteorigin-widgets' ),
             'description' => 'Choose a color for borders of all regions',
           ),
+          'hover_color' => array(
+            'type'        => 'color',
+            'default'     => '#FFFF00',
+            'label'       => __( 'Boundary Hover Color', 'siteorigin-widgets' ),
+            'description' => 'Choose a hover color for all region boundaries',
+          ),
           /*
           REMOVED AS IT SEEMED LIKE AN UNNECESSARY FIELD
           'opacity' => array(
