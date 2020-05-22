@@ -14,9 +14,11 @@
 
   $instance['json_url'] = admin_url('admin-ajax.php?action=sp_combine_map_jsons');
 
+	SPUTZNIK_SOW::getInstance()->browserData( 'sp_map_data', $instance );
+
   //echo "<pre>";
   //print_r( $instance );
   //echo "</pre>";
 ?>
 
-<div data-json='<?php _e( wp_json_encode( $instance ) )?>' data-behaviour="choropleth-map"></div>
+<div data-behaviour="choropleth-map"></div>

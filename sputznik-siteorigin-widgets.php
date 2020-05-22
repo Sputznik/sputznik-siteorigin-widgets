@@ -119,9 +119,21 @@ class SPUTZNIK_SOW{
     wp_die();
   }
 
+	function browserData( $type, $data ){
+		?>
+		<script type="text/javascript">
+		if( window.browserData === undefined || window.browserData[ '<?php _e( $type );?>' ] === undefined ){
+			var data = window.browserData = window.browserData || {};
+			browserData[ '<?php _e( $type );?>' ] = <?php echo json_encode( wp_unslash( $data ) );?>;
+		}
+		</script>
+		<?php
+	}
+
 }
 
-SPUTZNIK_SOW::getInstance();
-
 global $sp_sow;
-$sp_sow = new SPUTZNIK_SOW;
+$sp_sow = SPUTZNIK_SOW::getInstance();
+
+
+//$sp_sow = new SPUTZNIK_SOW;

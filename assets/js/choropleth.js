@@ -5,12 +5,12 @@
 		return this.each(function() {
 
       var $el 			 = jQuery( this ),
-				data				 = {},
+				data				 = window.browserData['sp_map_data'] != undefined ? window.browserData['sp_map_data'] : [],
 				geoCountries = {},
 				regions_data = {};
 
-			if( $el.data('json') ){ data = $el.data( 'json' ); }
-
+			//if( $el.data('json') ){ data = $el.data( 'json' ); }
+			
 			if( data['region-lines'] == undefined ){ data['region-lines'] = {}; }
 
 			if( data[ 'regions' ] ){ regions_data = data[ 'regions' ]; }
