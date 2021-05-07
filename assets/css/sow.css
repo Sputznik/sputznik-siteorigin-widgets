@@ -96,3 +96,120 @@ a[href].sp-floating-btn{
   padding: 10px;
 }
 .odometer-wrapper .odometer-Txt span{display:inline-block;}
+
+
+/* SOW FLIP CARD */
+.flip-grid-4 .post-card {
+  position: relative;
+  display: inline-block;
+  height: 370px;
+  width: 100%;
+  -webkit-perspective: 1500;
+  -webkit-transform-style: preserve-3d;
+}
+.flip-grid-4 .post-card .front,
+.flip-grid-4 .post-card .back,
+.flip-grid-4 .post-card .back-inner{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.flip-grid-4 .post-card .front,
+.flip-grid-4 .post-card .back {
+  transition: all 0.8s ease-in-out;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: rgba(0, 0, 0, 0.7) 0 2px 6px -2px;
+  border-radius: 10px;
+  backface-visibility: hidden;
+}
+
+.flip-grid-4 .post-card .front {
+  transform: rotateY(0);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  transform: rotateY(0);
+  padding: 15px;
+}
+
+.flip-grid-4 .post-card .front,
+.flip-grid-4 .post-card .back-inner{
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center  center;
+}
+
+.flip-grid-4 .post-card .back-inner{ display: none; z-index: -1; }
+
+.flip-grid-4 .post-card h2.title{
+  margin: 0;
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.flip-grid-4 .post-card h4.title{
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 1;
+  margin: 0;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.flip-grid-4 .content{
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+
+.flip-grid-4 .post-card .back {
+  transform: rotateY(-180deg);
+  padding: 30px;
+}
+.flip-grid-4 .post-card .btn {
+  padding: 10px 20px;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.flip-grid-4 .post-btn{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* MEDIA QUERIES */
+@media( min-width: 769px ){
+
+  /* SOW FLIP CARD */
+  .flip-grid-4{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 15px;
+  }
+
+  .flip-grid-4 .post-card:hover .front {
+    transform: rotateY(180deg);
+  }
+  .flip-grid-4 .post-card:hover .back {
+    transform: rotateY(0);
+  }
+
+}
+
+@media( max-width: 768px ){
+  /* SOW FLIP CARD */
+  .flip-grid-4 .post-item{ margin-bottom: 30px; }
+  .flip-grid-4 .post-card .front { transform: rotateY(180deg); }
+  .flip-grid-4 .post-card .back { transform: rotateY(0); }
+  .flip-grid-4 .post-card .back-inner{ display: block; }
+}
