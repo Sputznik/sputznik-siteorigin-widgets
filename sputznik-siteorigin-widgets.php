@@ -64,6 +64,7 @@ class SPUTZNIK_SOW{
     wp_enqueue_style( 'buttonscript', plugin_dir_url(  __FILE__).'assets/css/sow.css', array(), SP_SOW_VERSION );
     wp_enqueue_script( 'buttonstyle', plugin_dir_url( __FILE__ ).'/assets/js/sow.js', array( 'jquery' ), SP_SOW_VERSION , true );
     wp_enqueue_script( 'odometer', plugin_dir_url( __FILE__ ).'/assets/js/odometer.js', array( 'jquery' ), SP_SOW_VERSION , true );
+    wp_enqueue_script( 'honeycomb', plugin_dir_url( __FILE__ ).'/assets/js/honeycomb-user-popup.js', array( 'jquery' ), SP_SOW_VERSION , true );
 
     $panels_data = get_post_meta( get_the_ID(), 'panels_data', true );
 
