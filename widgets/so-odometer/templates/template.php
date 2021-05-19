@@ -16,7 +16,7 @@
               <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
               <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
               <div class="odometer-desc">
-                <?php if( $odometer_icon ): _e( $odometer_icon ); _e( $value['odometer_txt'] ); ?>
+                <?php if( $odometer_icon ): _e( $odometer_icon ); _e( '<span class="odometer-text">'.$value['odometer_txt'].'</span>' ); ?>
                 <?php else:?>
                 <div class="no-icon">
                   <?php _e( $value['odometer_txt'] );?>
