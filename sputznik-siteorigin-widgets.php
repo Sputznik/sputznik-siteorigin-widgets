@@ -9,6 +9,7 @@
 */
 
 define( 'SP_SOW_VERSION', time() ); // 1.1.7
+define( 'SP_SOW_URI', plugin_dir_url( __DIR__ ).'sputznik-siteorigin-widgets/' );
 
 class SPUTZNIK_SOW{
 

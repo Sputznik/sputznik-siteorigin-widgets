@@ -244,6 +244,76 @@ a[data-behaviour~="honeycomb-user-popup"]:hover .honeycomb-user-body .overlay .n
 #honeycomb-user-modal .honeycomb-user-body .user-meta .bio{ font-size: 16px; line-height: 18px; color: #2e3d59; }
 /* HONEYCOMB USER MODAL */
 
+/* SOW HERO VIDEO */
+.sp-hero-video .bounce-wrapper{
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+   -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  opacity: 0.5;
+}
+.sp-hero-video .bounce-in-btn{
+  display: inline-block;
+  width: 45px;
+  margin: 0 auto;
+}
+.sp-hero-video .bounce-in-btn img{ width: 100%; }
+.hero-video-wrapper.sp-hero-video{
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.sp-hero-video .overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sp-hero-video .video-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+
+}
+.sp-hero-video .video-wrapper iframe,
+.sp-hero-video .video-wrapper video {
+  width: 100vw;
+  height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+  min-height: 100vh;
+  min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Bounce up and down animation */
+@keyframes bounceIn {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+/* Bounce up and down animation */
+
+/* SOW HERO VIDEO */
+
+
+
+
 
 /* MEDIA QUERIES */
 @media( min-width: 769px ){
@@ -281,6 +351,21 @@ a[data-behaviour~="honeycomb-user-popup"]:hover .honeycomb-user-body .overlay .n
   }
   #honeycomb-user-modal .honeycomb-user-body{ display: grid; grid-template-columns: 200px 1fr; }
 
+  /* SOW HERO VIDEO */
+  .sp-hero-video .bounce-in-btn{
+    -moz-animation: bounceIn 2s infinite;
+    -webkit-animation: bounceIn 2s infinite;
+    animation: bounceIn 2s infinite;
+    animation-fill-mode: forwards;
+  }
+  .sp-hero-video .bounce-wrapper:hover{ opacity: 1; }
+  .sp-hero-video .bounce-in-btn:hover{
+    -moz-animation-name: none;
+    -webkit-animation-name: none;
+    animation-name: none;
+  }
+  /* SOW HERO VIDEO */
+
 }
 
 @media( max-width: 768px ){
@@ -301,6 +386,10 @@ a[data-behaviour~="honeycomb-user-popup"]:hover .honeycomb-user-body .overlay .n
     margin-left: auto;
     margin-right: auto;
   }
+
+  /* SOW HERO VIDEO */
+  .hero-video-wrapper.sp-hero-video{ height: 529px; }
+  /* SOW HERO VIDEO */
 
 }
 
