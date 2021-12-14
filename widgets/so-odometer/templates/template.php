@@ -10,10 +10,18 @@
           foreach ($odometer_repeater as $value) {
             // _e( $value['icon_color'] );
             $odometer_icon = siteorigin_widget_get_icon( $value['odometer_icon'], array( '' ) );
+
+            $limit_type = $value['limit_type'];
+    			  $odometer_count = $value['odometer_limit'];
+
+    			  if( $limit_type == 'spc_shortcode' ){
+    			    $odometer_count = do_shortcode( $value['odometer_limit_sc'] );
+    			  }
+
           ?>
           	<div class=" item odometer-Txt">
               <?php ( $value['odometer_prefix'] ) ? _e( '<span class="odometer-prefix">'.$value['odometer_prefix'].'</span>' ) : ''?>
-              <span class="odometer-value" data-count="<?php _e( $value['odometer_limit'] );?>">0</span>
+              <span class="odometer-value" data-count="<?php _e( $odometer_count );?>">0</span>
               <?php ( $value['odometer_suffix'] ) ? _e( '<span class="odometer-suffix">'.$value['odometer_suffix'].'</span>' ) : ''?>
               <div class="odometer-desc">
                 <?php if( $odometer_icon ): _e( $odometer_icon ); _e( '<span class="odometer-text">'.$value['odometer_txt'].'</span>' ); ?>

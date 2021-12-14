@@ -25,11 +25,6 @@ class SP_ODOMETER extends SiteOrigin_Widget{
             'label' =>  __( 'Title', 'siteorigin-widgets' ),
             'default' =>  '',
           ),
-          'odometer_limit'  =>  array(
-            'type'  =>  'text',
-            'label' =>  __( 'Counter Value', 'siteorigin-widgets' ),
-            'default' =>  '50',
-          ),
           'odometer_prefix' => array(
             'type'  =>  'text',
             'label' =>  __( 'Prefix', 'siteorigin-widgets' ),
@@ -42,7 +37,37 @@ class SP_ODOMETER extends SiteOrigin_Widget{
             'description' =>  __( 'The suffix string for the counter. Examples include strings like hr for hours or m for million.',
                               'siteorigin-widgets' )
           ),
-
+          'limit_type' => array(
+            'type'    => 'select',
+            'label'   => __( 'Choose Limit Type', 'siteorigin-widgets' ),
+            'options' => array(
+              'spc_number'	  => 'Enter Number',
+              'spc_shortcode'	=> 'Enter Shortcode'
+            ),
+            'state_emitter' => array(
+              'callback' 	=> 'select',
+              'args' 			=> array( 'limit_type_{$repeater}' )
+            ),
+          ),
+          'odometer_limit'  =>  array(
+            'type'  =>  'text',
+            'label' =>  __( 'Counter Value', 'siteorigin-widgets' ),
+            'description' => __( 'Enter counter value.', 'siteorigin-widgets' ),
+            'default' =>  '50',
+            'state_handler' => array(
+              'limit_type_{$repeater}[spc_number]'     => array('show'),
+              'limit_type_{$repeater}[spc_shortcode]'  => array('hide')
+            ),
+          ),
+          'odometer_limit_sc' => array(
+            'type' 		=> 'text',
+            'label' 	=> __( 'Enter Shortcode', 'siteorigin-widgets' ),
+            'description' => __( 'Get counter value from a shortcode.', 'siteorigin-widgets' ),
+            'state_handler' => array(
+              'limit_type_{$repeater}[spc_number]'     => array('hide'),
+              'limit_type_{$repeater}[spc_shortcode]'  => array('show')
+            ),
+          ),
         )
       ),
         'odometer_font'  => array(
