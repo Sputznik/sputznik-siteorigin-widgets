@@ -18,15 +18,7 @@
             const uniqueId = normalizeClassPart(uniqueIdRaw);
             const combined = classname + '-' + uniqueId;
 
-            if (uniqueId) usedClasses.push(combined);
-
-            $(this).find('.siteorigin-widget-field-html').each(function () {
-                const label = $(this).find('label').text().trim();
-                if (label === 'Generated Class') {
-                    $(this).html('<label>Generated Class</label><div><code>' + combined + '</code></div>');
-                }
-            });
-
+            usedClasses.push(combined);
 
             const repeaterItem = $(this);
 
