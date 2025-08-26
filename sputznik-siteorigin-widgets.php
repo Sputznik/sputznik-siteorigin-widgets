@@ -68,6 +68,7 @@ class SPUTZNIK_SOW{
     wp_enqueue_script( 'honeycomb', plugin_dir_url( __FILE__ ).'/assets/js/honeycomb-user-popup.js', array( 'jquery' ), SP_SOW_VERSION , true );
     wp_enqueue_script( 'typed-js', 'https://cdn.jsdelivr.net/npm/typed.js@2.0.12', array('jquery'), null, true );
     wp_enqueue_script( 'sow-typed-js', plugin_dir_url( __FILE__ ).'/assets/js/typed.js', array('jquery'), SP_SOW_VERSION, true );
+    wp_enqueue_script( 'sputznik-modal-js', plugin_dir_url(__FILE__) . '/assets/js/fe-image-popup.js', array('jquery'), SP_SOW_VERSION, true);
 
     $panels_data = get_post_meta( get_the_ID(), 'panels_data', true );
 
