@@ -1,32 +1,36 @@
 jQuery(document).ready(function () {
-    var wrapper = jQuery('#sputznik-popup-wrapper');
-    var baseClass = wrapper.data('base-class');
+    jQuery('[id^="sputznik-popup-wrapper-"]').each(function () {
+        var baseClass = jQuery(this).data('base-class');
+        if (!baseClass) return;
 
-    if (!baseClass) return;
+        jQuery("[class*='" + baseClass + "-']").each(function () {
+            var widget = jQuery(this);
+            var classList = widget.attr("class").split(/\s+/);
 
-    jQuery("[class*='" + baseClass + "-']").each(function () {
-        var widget = jQuery(this);
-        var classList = widget.attr("class").split(/\s+/);
+            classList.forEach(function (cls) {
+                if (!cls.startsWith(baseClass + "-")) return;
 
-        jQuery.each(classList, function (i, cls) {
-            if (cls.indexOf(baseClass + "-") === 0) {
                 var uniqueId = cls.replace(baseClass + "-", "");
-                var modalId = baseClass + "-" + uniqueId;
-                var contentId = "#content-" + modalId;
+                var modalId = '#global-sputznik-modal-' + baseClass;
+                var contentId = '#content-' + baseClass + '-' + uniqueId;
                 var content = jQuery(contentId);
 
                 if (content.length && jQuery.trim(content.html()).length > 0) {
-                    var imgOrLink = widget.find("img, a").first();
+                    var trigger = widget.find("img, a").first();
 
-                    if (imgOrLink.length) {
-                        imgOrLink.css("cursor", "pointer").on("click", function (e) {
-                            e.preventDefault();
-                            jQuery('#global-modal-content').html(content.html());
-                            jQuery('#global-sputznik-modal').modal('show');
-                        });
-                    }
+                    trigger.css("cursor", "pointer").on("click", function (e) {
+                        e.preventDefault();
+                        jQuery('#global-modal-content-' + baseClass)
+                            .html(content.html());
+                        jQuery(modalId).removeAttr('aria-hidden');
+                        jQuery(modalId).modal('show');
+                    });
                 }
-            }
+            });
+        });
+
+        jQuery(document).on('hide.bs.modal', '#global-sputznik-modal-' + baseClass, function () {
+            document.activeElement?.blur();
         });
     });
 });

@@ -11,9 +11,9 @@ if ( empty( $instance['popup_items'] ) || ! is_array( $instance['popup_items'] )
 $base_classname = ! empty( $instance['classname'] ) ? sanitize_html_class( $instance['classname'] ) : 'popup';
 ?>
 
-<div id="sputznik-popup-wrapper" data-base-class="<?php echo esc_attr( $base_classname ); ?>">
+<div id="sputznik-popup-wrapper-<?php echo esc_attr( $base_classname ); ?>" data-base-class="<?php echo esc_attr( $base_classname ); ?>">
     <?php foreach ( $instance['popup_items'] as $popup_item ):
-        $unique_id = isset( $popup_item['unique_id'] ) ? sanitize_html_class( $popup_item['unique_id'] ) : 'popup-' . uniqid();
+        $unique_id = isset( $popup_item['unique_id'] ) ? sanitize_html_class( $popup_item['unique_id'] ) : 'popup-';
         $custom_class = isset( $popup_item['custom_class'] ) ? sanitize_html_class( $popup_item['custom_class'] ) : '';
         $builder_content = ! empty( $popup_item['builder_content'] ) ? $popup_item['builder_content'] : '';
 
@@ -33,12 +33,12 @@ $base_classname = ! empty( $instance['classname'] ) ? sanitize_html_class( $inst
     <?php endforeach; ?>
 
     <!-- only one global modal skeleton -->
-    <div id="global-sputznik-modal" class="modal sow-modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="global-sputznik-modal-<?php echo esc_attr( $base_classname ); ?>" class="modal sow-modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal">×</button>
-                    <div id="global-modal-content"></div>
+                    <div id="global-modal-content-<?php echo esc_attr( $base_classname ); ?>"></div>
                 </div>
             </div>
         </div>

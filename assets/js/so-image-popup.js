@@ -52,11 +52,6 @@ jQuery(document).ready(function () {
         });
     }
 
-    // Initialize existing forms on page load
-    jQuery('.siteorigin-widget-form[data-id-base="so-image-popup"]').each(function () {
-        initForm(this);
-    });
-
     // Initialize dynamically loaded forms 
     jQuery(document).on('sowsetupform', function (e) {
         const form = jQuery(e.target).closest('.siteorigin-widget-form[data-id-base="so-image-popup"]');
@@ -67,26 +62,28 @@ jQuery(document).ready(function () {
 
     // Click-to-copy (only for this widget)
     jQuery(document).on('click', '.siteorigin-widget-form[data-id-base="so-image-popup"] .click-to-copy', function () {
-        const element = jQuery(this);
-        const text = element.data('copy');
-        if (!text) return;
+        const $el = jQuery(this);
+        const textToCopy = $el.data('copy');
+        if (!textToCopy) return;
 
-        navigator.clipboard.writeText(text).then(() => {
-            const original = element.text();
-            element.text('Copied!');
+        $el.data('original-text', $el.data('original-text') || $el.text());
 
-            setTimeout(() => {
-                element.text(original);
-            }, 1000);
+        clearTimeout($el.data('reset-timeout'));
 
-        }).catch(err => {
-            console.error('Failed to copy text: ', err);
-            const original = element.text();
-            element.text('Failed to copy');
-            setTimeout(() => {
-                element.text(original);
-            }, 2000);
-        });
+        const resetText = (message, delay) => {
+            $el.text(message);
+            const timeout = setTimeout(() => {
+                $el.text($el.data('original-text'));
+                $el.removeData('reset-timeout');
+            }, delay);
+            $el.data('reset-timeout', timeout);
+        };
+
+        navigator.clipboard.writeText(textToCopy)
+            .then(() => resetText('Copied!', 1000))
+            .catch(err => {
+                console.error('Failed to copy text:', err);
+                resetText('Failed to copy', 2000);
+            });
     });
-
 });
