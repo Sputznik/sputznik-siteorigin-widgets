@@ -10,27 +10,27 @@ jQuery(document).ready(function () {
             classList.forEach(function (cls) {
                 if (!cls.startsWith(baseClass + "-")) return;
 
-                var uniqueId = cls.replace(baseClass + "-", "");
-                var modalId = '#global-sputznik-modal-' + baseClass;
-                var contentId = '#content-' + baseClass + '-' + uniqueId;
-                var content = jQuery(contentId);
+                var modalId = '#' + cls;
 
-                if (content.length && jQuery.trim(content.html()).length > 0) {
-                    var trigger = widget.find("img, a").first();
-
-                    trigger.css("cursor", "pointer").on("click", function (e) {
+                if (jQuery(modalId).length) {
+                    widget.find("img, a").first().css("cursor", "pointer").on("click", function (e) {
                         e.preventDefault();
-                        jQuery('#global-modal-content-' + baseClass)
-                            .html(content.html());
-                        jQuery(modalId).removeAttr('aria-hidden');
-                        jQuery(modalId).modal('show');
+                        jQuery(modalId).addClass('active').attr('aria-hidden', 'false');
+                        jQuery('body').addClass('modal-open');
                     });
                 }
             });
         });
+    });
 
-        jQuery(document).on('hide.bs.modal', '#global-sputznik-modal-' + baseClass, function () {
-            document.activeElement?.blur();
-        });
+    // Close modal with animation
+    jQuery(document).on('click', '.custom-modal', function (e) {
+        if (jQuery(e.target).is('.custom-modal') || jQuery(e.target).hasClass('close')) {
+            const modal = jQuery(this);
+            modal.removeClass('active').attr('aria-hidden', 'true');
+            jQuery('body').removeClass('modal-open');
+
+        }
     });
 });
+
