@@ -29,3 +29,25 @@
 body.modal-open {
   overflow: hidden;
 }
+
+.modal-dialog {
+  width: 90% !important;
+  margin: 0 auto !important;
+}
+
+@media (min-width: 768px) {
+  .modal-dialog {
+    width: 80% !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .modal-dialog {
+    width: 70% !important;
+  }
+}
+
+/* .custom-modal .modal-body img {
+  max-width: 100%;
+  height: auto;
+} */
