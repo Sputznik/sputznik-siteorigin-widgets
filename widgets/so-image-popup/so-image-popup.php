@@ -23,7 +23,7 @@ class SP_IMAGE_POPUP extends SiteOrigin_Widget {
         'type' => 'text',
         'label' => __('Classname', 'siteorigin-widgets'),
         'default' => 'popup',
-        'description' => __('This will be used to generate the trigger class like: classname-uniqueid', 'siteorigin-widgets'),
+        'description' => __('Lowercase only, This will be used to generate the trigger class like: classname-uniqueid', 'siteorigin-widgets'),
       ),
         'popup_items' => array(
           'type' => 'repeater',
@@ -110,6 +110,12 @@ class SP_IMAGE_POPUP extends SiteOrigin_Widget {
 
   function update($new_instance, $old_instance, $form_type = 'widget') {
       if ( ! empty( $new_instance['popup_items'] ) && is_array( $new_instance['popup_items'] ) ) {
+        // Force classname to lowercase and remove spaces.
+          if ( isset( $new_instance['classname'] ) ) {
+              $new_instance['classname'] = sanitize_html_class(
+                  strtolower( trim( $new_instance['classname'] ) )
+              );
+          }
           $ids = array();
           foreach ( $new_instance['popup_items'] as $index => &$popup_item ) {
               if ( isset( $popup_item['unique_id'] ) ) {
@@ -138,8 +144,8 @@ class SP_IMAGE_POPUP extends SiteOrigin_Widget {
           $new_instance['popup_items'] = array_values( $new_instance['popup_items'] );
       }
 
-    return $new_instance;
-  }
+    return parent::update( $new_instance, $old_instance, $form_type );
+}
 
   function get_template_name($instance) {
     return 'template';
