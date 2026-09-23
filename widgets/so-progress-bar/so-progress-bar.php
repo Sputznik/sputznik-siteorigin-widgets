@@ -187,6 +187,16 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		return '';
 	}
 
+	public function enqueue_frontend_scripts( $instance ){
+		$assets_path   = plugin_dir_url(__FILE__);
+		$active_layout = $this->get_validated_layout( $instance );
+
+		wp_enqueue_script( 'so-sp-progress-bar-main-js', $assets_path . 'js/script.js', array('jquery'), SP_SOW_VERSION, true );
+		wp_enqueue_style( 'so-sp-progress-bar-style-' . $active_layout, $assets_path . 'css/' . $active_layout . '.css', array(), SP_SOW_VERSION );
+
+		parent::enqueue_frontend_scripts( $instance );
+	}
+
 	/**
 	 * SANITIZE WIDGET FORM
 	 */
