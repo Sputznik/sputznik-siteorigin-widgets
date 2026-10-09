@@ -22,6 +22,8 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		'aria_template'          => 'Progress: ${value_prefix}${current_percentage}${value_suffix} out of ${max_prefix}${max_value}${max_suffix}.',
 		'track_background_color' => '#e5e7eb',
 		'track_foreground_color' => '#3b82f6',
+		'current_value_color'    => '#4b5563',
+		'max_value_color'        => '#4b5563',
 	);
 
 	function __construct(){
@@ -89,6 +91,20 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 								'foreground_color' => array( 'type' => 'color', 'label' => __( 'Foreground Color (Fill)', 'siteorigin-widgets' ), 'default' => $defaults['track_foreground_color'] ),
 							)
 						),
+						'current' => array(
+							'type'   => 'section',
+							'label'  => __( 'Current Value Styles', 'siteorigin-widgets' ),
+							'fields' => array(
+								'value_color' => array( 'type' => 'color', 'label' => __( 'Value Color', 'siteorigin-widgets' ), 'default' => $defaults['current_value_color'] ),
+							)
+						),
+						'max' => array(
+							'type'   => 'section',
+							'label'  => __( 'Maximum Threshold Styles', 'siteorigin-widgets' ),
+							'fields' => array(
+								'value_color' => array( 'type' => 'color', 'label' => __( 'Value Color', 'siteorigin-widgets' ), 'default' => $defaults['max_value_color'] ),
+							)
+						),
 					),
 				),
 			),
@@ -100,9 +116,11 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 	 * FRONTEND MODEL
 	 */
 	public function get_layout_data( $instance ){
-		$current_nodes = isset( $instance['settings_section']['current'] ) ? $instance['settings_section']['current'] : array();
-		$max_nodes     = isset( $instance['settings_section']['max'] ) ? $instance['settings_section']['max'] : array();
-		$track_nodes   = isset( $instance['design_section']['track'] ) ? $instance['design_section']['track'] : array();
+		$current_nodes       = isset( $instance['settings_section']['current'] ) ? $instance['settings_section']['current'] : array();
+		$max_nodes           = isset( $instance['settings_section']['max'] ) ? $instance['settings_section']['max'] : array();
+		$track_nodes         = isset( $instance['design_section']['track'] ) ? $instance['design_section']['track'] : array();
+		$current_nodes_style = isset( $instance['design_section']['current'] ) ? $instance['design_section']['current'] : array();
+		$max_nodes_style     = isset( $instance['design_section']['max'] ) ? $instance['design_section']['max'] : array();
 
 		$user_configs = array(
 			'layout_type'            => isset( $instance['layout_type'] ) ? $instance['layout_type'] : '',
@@ -115,6 +133,8 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			'aria_template'          => isset( $instance['settings_section']['aria_template'] ) ? $instance['settings_section']['aria_template'] : null,
 			'track_background_color' => isset( $track_nodes['background_color'] ) ? $track_nodes['background_color'] : null,
 			'track_foreground_color' => isset( $track_nodes['foreground_color'] ) ? $track_nodes['foreground_color'] : null,
+			'current_value_color'    => isset( $current_nodes_style['value_color'] ) ? $current_nodes_style['value_color'] : null,
+			'max_value_color'        => isset( $max_nodes_style['value_color'] ) ? $max_nodes_style['value_color'] : null,
 		);
 
 		// STRIP EMPTY PROPERTIES TO FALLBACK ONTO THE DEFAULTS
@@ -153,11 +173,17 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 				'percentage' => $rounded_percentage,
 				'prefix'     => $val_prefix,
 				'suffix'     => $val_suffix,
+				'style'      => array(
+					'value_color' => esc_attr( $settings['current_value_color'] ),
+				)
 			),
 			'max'     => array(
 				'value'      => $max,
 				'prefix'     => $max_prefix,
 				'suffix'     => $max_suffix,
+				'style'      => array(
+					'value_color' => esc_attr( $settings['max_value_color'] ),
+				)
 			),
 			'aria_value_text' => $aria_value_text
 		);
@@ -225,6 +251,14 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 
 		if( isset( $instance['design_section']['track']['foreground_color'] ) ){
 			$instance['design_section']['track']['foreground_color'] = sanitize_hex_color( $instance['design_section']['track']['foreground_color'] );
+		}
+
+		if( isset( $instance['design_section']['current']['value_color'] ) ){
+			$instance['design_section']['current']['value_color'] = sanitize_hex_color( $instance['design_section']['current']['value_color'] );
+		}
+
+		if( isset( $instance['design_section']['max']['value_color'] ) ){
+			$instance['design_section']['max']['value_color'] = sanitize_hex_color( $instance['design_section']['max']['value_color'] );
 		}
 
 		return $instance;
