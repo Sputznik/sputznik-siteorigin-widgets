@@ -58,7 +58,12 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 							'type'   => 'section',
 							'label'  => __( 'Current Value Options', 'siteorigin-widgets' ),
 							'fields' => array(
-								'value'  => array( 'type' => 'number', 'label' => __( 'Value', 'siteorigin-widgets' ), 'default' => $defaults['current_value'] ),
+								'value'         => array(
+									'type'        => 'number',
+									'label'       => __( 'Value', 'siteorigin-widgets' ),
+									'default'     => $defaults['current_value'],
+									'description' => __( 'Automatically capped if it exceeds the max threshold value.', 'siteorigin-widgets' ),
+								),
 								'prefix' => array( 'type' => 'text', 'label' => __( 'Prefix', 'siteorigin-widgets' ), 'default' => $defaults['value_prefix'] ),
 								'suffix' => array( 'type' => 'text', 'label' => __( 'Suffix', 'siteorigin-widgets' ), 'default' => $defaults['value_suffix'] ),
 								'display_format' => array(
@@ -302,6 +307,16 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			$instance['settings_section']['max']['value'] = floatval( $instance['settings_section']['max']['value'] );
 			if( $instance['settings_section']['max']['value'] <= 0 ){
 				$instance['settings_section']['max']['value'] = self::$sp_widget_form_defaults['max_value'];
+			}
+		}
+
+		// Ensure current value does not exceed max value
+		if( isset( $instance['settings_section']['current']['value'] ) && isset( $instance['settings_section']['max']['value'] ) ){
+			$max_val     = $instance['settings_section']['max']['value'];
+			$current_val = $instance['settings_section']['current']['value'];
+
+			if( $current_val > $max_val ){
+				$instance['settings_section']['current']['value'] = $max_val;
 			}
 		}
 
