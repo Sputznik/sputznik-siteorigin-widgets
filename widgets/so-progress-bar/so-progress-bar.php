@@ -19,6 +19,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		'value_suffix'           => '%',
 		'max_prefix'             => '',
 		'max_suffix'             => '',
+		'current_value_format'   => 'percentage',
 		'aria_template'          => 'Progress: ${value_prefix}${current_percentage}${value_suffix} out of ${max_prefix}${max_value}${max_suffix}.',
 		'track_background_color' => '#e5e7eb',
 		'track_foreground_color' => '#3b82f6',
@@ -59,6 +60,16 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 								'value'  => array( 'type' => 'number', 'label' => __( 'Value', 'siteorigin-widgets' ), 'default' => $defaults['current_value'] ),
 								'prefix' => array( 'type' => 'text', 'label' => __( 'Prefix', 'siteorigin-widgets' ), 'default' => $defaults['value_prefix'] ),
 								'suffix' => array( 'type' => 'text', 'label' => __( 'Suffix', 'siteorigin-widgets' ), 'default' => $defaults['value_suffix'] ),
+								'display_format' => array(
+									'type'    => 'select',
+									'label'   => __( 'Display Format', 'siteorigin-widgets' ),
+									'default' => $defaults['current_value_format'],
+									'options' => array(
+										'percentage' => __( 'Percentage', 'siteorigin-widgets' ),
+										'decimal'    => __( 'Decimal', 'siteorigin-widgets' ),
+										'thousand'   => __( 'Thousand Number (Formatted natively with commas)', 'siteorigin-widgets' ),
+									),
+								),
 							)
 						),
 						'max' => array(
@@ -127,6 +138,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			'current_value'          => isset( $current_nodes['value'] ) ? $current_nodes['value'] : null,
 			'value_prefix'           => isset( $current_nodes['prefix'] ) ? $current_nodes['prefix'] : null,
 			'value_suffix'           => isset( $current_nodes['suffix'] ) ? $current_nodes['suffix'] : null,
+			'current_value_format'   => isset( $current_nodes['display_format'] ) ? $current_nodes['display_format'] : null,
 			'max_value'              => isset( $max_nodes['value'] ) ? $max_nodes['value'] : null,
 			'max_prefix'             => isset( $max_nodes['prefix'] ) ? $max_nodes['prefix'] : null,
 			'max_suffix'             => isset( $max_nodes['suffix'] ) ? $max_nodes['suffix'] : null,
@@ -149,10 +161,12 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		$max_suffix = esc_html( $settings['max_suffix'] );
 
 		$percentage = ( $max > 0 ) ? max( 0, min( 100, ( $current / $max ) * 100 ) ) : 0;
-		$rounded_percentage = round( $percentage );
+		$rounded_percentage = round( $percentage, 1 );
+
+		$display_format = $this->process_display_format( $current, $percentage, $settings['current_value_format'], $max );
 
 		$tokens = array(
-			'${current_value}'      => $current,
+			'${current_value}'      => $display_format,
 			'${current_percentage}' => $rounded_percentage,
 			'${max_value}'          => $max,
 			'${value_prefix}'       => $val_prefix,
@@ -170,7 +184,9 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			),
 			'current' => array(
 				'value'      => $current,
-				'percentage' => $rounded_percentage,
+				'percentage' => $percentage,
+				'format'     => $settings['current_value_format'],
+				'label'      => $display_format,
 				'prefix'     => $val_prefix,
 				'suffix'     => $val_suffix,
 				'style'      => array(
@@ -187,6 +203,29 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			),
 			'aria_value_text' => $aria_value_text
 		);
+	}
+
+	private function process_display_format( $current, $percentage, $formatting_style, $max ){
+		$decimals = ( floor( $current ) == $current ) ? 0 : 1;
+
+		switch( $formatting_style ){
+			case 'decimal':
+				$decimal_fraction = ( $max > 0 ) ? ( $current / $max ) : 0;
+
+				// Format up to 3 decimal places for accuracy (e.g., 0.075)
+				$formatted_decimal = number_format( $decimal_fraction, 3, '.', '' );
+
+				// Trim trailing zeros so 0.500 becomes 0.5, but preserve 0 if it's completely flat
+				$formatted_decimal = ( strpos( $formatted_decimal, '.' ) !== false ) ? rtrim( rtrim( $formatted_decimal, '0' ), '.' ) : $formatted_decimal;
+				return ( $formatted_decimal === '' ) ? '0' : $formatted_decimal;
+
+			case 'thousand': return number_format( $current, $decimals, '.', ',' );
+
+			case 'percentage':
+			default: $pct_decimals = ( floor( $percentage ) == $percentage ) ? 0 : 1;
+			return number_format( $percentage, $pct_decimals, '.', '' );
+		}
+
 	}
 
 	private function get_validated_layout( $instance ){

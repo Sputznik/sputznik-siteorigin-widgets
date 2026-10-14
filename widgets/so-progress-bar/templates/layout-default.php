@@ -21,8 +21,8 @@ $data = $this->get_layout_data( $instance );
 		</div>
 	</div>
 	<div class="so-sp-progress-labels" aria-hidden="true">
-		<span class="so-sp-current-label" style="color: <?php echo $data['current']['style']['value_color']; ?>;">
-			<?php echo $data['current']['prefix'] . $data['current']['percentage'] . $data['current']['suffix']; ?>
+		<span class="so-sp-current-label so-sp-current-label-format-<?php echo $data['current']['format']; ?>" style="color: <?php echo $data['current']['style']['value_color']; ?>;">
+			<?php echo $data['current']['prefix'] . esc_html( $data['current']['label'] ) . $data['current']['suffix']; ?>
 		</span>
 		<span class="so-sp-max-label" style="color: <?php echo $data['max']['style']['value_color']; ?>;">
 			<?php echo $data['max']['prefix'] . $data['max']['value'] . $data['max']['suffix']; ?>
