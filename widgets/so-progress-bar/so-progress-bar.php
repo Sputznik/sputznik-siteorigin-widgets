@@ -209,7 +209,6 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			),
 			'current' => array(
 				'value'      => $current,
-				'percentage' => $percentage,
 				'format'     => $settings['current_value_format'],
 				'label'      => $display_format,
 				'prefix'     => $active_prefix,
