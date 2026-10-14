@@ -97,7 +97,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 							'type'        => 'text',
 							'label'       => __( 'Accessible Screen Reader Text Template', 'siteorigin-widgets' ),
 							'default'     => $defaults['aria_template'],
-							'description' => __( 'Available placeholders: ${current_value}, ${max_value}, ${value_prefix}, ${value_suffix}, ${max_prefix}, ${max_suffix}', 'siteorigin-widgets' ),
+							'description' => __( 'Available placeholders: <code>${current_value}</code>, <code>${max_value}</code>, <code>${value_prefix}</code>, <code>${value_suffix}</code>, <code>${max_prefix}</code>, <code>${max_suffix}</code>', 'siteorigin-widgets' ),
 						),
 					),
 				),
