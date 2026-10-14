@@ -20,7 +20,8 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		'max_prefix'             => '',
 		'max_suffix'             => '',
 		'current_value_format'   => 'percentage',
-		'aria_template'          => 'Progress: ${value_prefix}${current_percentage}${value_suffix} out of ${max_prefix}${max_value}${max_suffix}.',
+		'completion_label'       => 'Complete',
+		'aria_template'          => 'Progress: ${value_prefix}${current_value}${value_suffix} out of ${max_prefix}${max_value}${max_suffix}.',
 		'track_background_color' => '#e5e7eb',
 		'track_foreground_color' => '#3b82f6',
 		'current_value_color'    => '#4b5563',
@@ -70,6 +71,12 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 										'thousand'   => __( 'Thousand Number (Formatted natively with commas)', 'siteorigin-widgets' ),
 									),
 								),
+                'completion_label' => array(
+                  'type'        => 'text',
+                  'label'       => __( 'Completion Label', 'siteorigin-widgets' ),
+                  'default'     => $defaults['completion_label'],
+                  'description' => __( 'Replaces the <code>${current_value}</code> token once progress hits 100%.', 'siteorigin-widgets' ),
+                ),
 							)
 						),
 						'max' => array(
@@ -85,7 +92,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 							'type'        => 'text',
 							'label'       => __( 'Accessible Screen Reader Text Template', 'siteorigin-widgets' ),
 							'default'     => $defaults['aria_template'],
-							'description' => __( 'Available placeholders: ${current_value}, ${current_percentage}, ${max_value}, ${value_prefix}, ${value_suffix}, ${max_prefix}, ${max_suffix}', 'siteorigin-widgets' ),
+							'description' => __( 'Available placeholders: ${current_value}, ${max_value}, ${value_prefix}, ${value_suffix}, ${max_prefix}, ${max_suffix}', 'siteorigin-widgets' ),
 						),
 					),
 				),
@@ -139,6 +146,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 			'value_prefix'           => isset( $current_nodes['prefix'] ) ? $current_nodes['prefix'] : null,
 			'value_suffix'           => isset( $current_nodes['suffix'] ) ? $current_nodes['suffix'] : null,
 			'current_value_format'   => isset( $current_nodes['display_format'] ) ? $current_nodes['display_format'] : null,
+			'completion_label'       => isset( $current_nodes['completion_label'] ) ? $current_nodes['completion_label'] : null,
 			'max_value'              => isset( $max_nodes['value'] ) ? $max_nodes['value'] : null,
 			'max_prefix'             => isset( $max_nodes['prefix'] ) ? $max_nodes['prefix'] : null,
 			'max_suffix'             => isset( $max_nodes['suffix'] ) ? $max_nodes['suffix'] : null,
@@ -159,15 +167,22 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		$val_suffix = esc_html( $settings['value_suffix'] );
 		$max_prefix = esc_html( $settings['max_prefix'] );
 		$max_suffix = esc_html( $settings['max_suffix'] );
+		$comp_label = esc_html( $settings['completion_label'] );
 
 		$percentage = ( $max > 0 ) ? max( 0, min( 100, ( $current / $max ) * 100 ) ) : 0;
-		$rounded_percentage = round( $percentage, 1 );
 
-		$display_format = $this->process_display_format( $current, $percentage, $settings['current_value_format'], $max );
+		$format_args = array(
+			'current'          => $current,
+			'max'              => $max,
+			'percentage'       => $percentage,
+			'formatting_style' => $settings['current_value_format'],
+			'completion_label' => $comp_label,
+		);
+
+		$display_format = $this->process_display_format( $format_args );
 
 		$tokens = array(
 			'${current_value}'      => $display_format,
-			'${current_percentage}' => $rounded_percentage,
 			'${max_value}'          => $max,
 			'${value_prefix}'       => $val_prefix,
 			'${value_suffix}'       => $val_suffix,
@@ -205,10 +220,20 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 		);
 	}
 
-	private function process_display_format( $current, $percentage, $formatting_style, $max ){
+	private function process_display_format( array $args ){
+		$current    = $args['current'];
+		$max        = $args['max'];
+		$percentage = $args['percentage'];
+		$style      = $args['formatting_style'];
+		$comp_label = $args['completion_label'];
+
+		if( $current >= $max && $max > 0 ){
+			return $comp_label;
+		}
+
 		$decimals = ( floor( $current ) == $current ) ? 0 : 1;
 
-		switch( $formatting_style ){
+		switch( $style ){
 			case 'decimal':
 				$decimal_fraction = ( $max > 0 ) ? ( $current / $max ) : 0;
 
