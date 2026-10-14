@@ -80,7 +80,7 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
                   'type'        => 'text',
                   'label'       => __( 'Completion Label', 'siteorigin-widgets' ),
                   'default'     => $defaults['completion_label'],
-                  'description' => __( 'Replaces the <code>${current_value}</code> token once progress hits 100%.', 'siteorigin-widgets' ),
+                  'description' => __( 'Replaces the original progress once it hits 100%.', 'siteorigin-widgets' ),
                 ),
 							)
 						),
@@ -186,11 +186,16 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 
 		$display_format = $this->process_display_format( $format_args );
 
+		// If complete, suppress the current prefix and suffix tokens entirely
+		$is_completed = ( $current >= $max && $max > 0 );
+		$active_prefix = $is_completed ? '' : $val_prefix;
+		$active_suffix = $is_completed ? '' : $val_suffix;
+
 		$tokens = array(
 			'${current_value}'      => $display_format,
 			'${max_value}'          => $max,
-			'${value_prefix}'       => $val_prefix,
-			'${value_suffix}'       => $val_suffix,
+			'${value_prefix}'       => $active_prefix,
+			'${value_suffix}'       => $active_suffix,
 			'${max_prefix}'         => $max_prefix,
 			'${max_suffix}'         => $max_suffix,
 		);
@@ -207,8 +212,8 @@ class SP_PROGRESS_BAR extends SiteOrigin_Widget {
 				'percentage' => $percentage,
 				'format'     => $settings['current_value_format'],
 				'label'      => $display_format,
-				'prefix'     => $val_prefix,
-				'suffix'     => $val_suffix,
+				'prefix'     => $active_prefix,
+				'suffix'     => $active_suffix,
 				'style'      => array(
 					'value_color' => esc_attr( $settings['current_value_color'] ),
 				)
