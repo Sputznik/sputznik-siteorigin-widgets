@@ -44,12 +44,41 @@ jQuery(document).ready(function () {
         }
     }
 
-    function initForm(form) {
-        updateCombinedLabel(form);
+    function updateRepeaterLabels(container) {
 
-        jQuery(form).on('input', 'input[name$="[classname]"], input[name*="[unique_id]"]', function () {
-            updateCombinedLabel(form);
+        jQuery(container).find(
+            '.siteorigin-widget-field-popup_items .siteorigin-widget-field-repeater-item'
+        ).each(function () {
+
+            const item = jQuery(this);
+
+            const uniqueId = jQuery.trim(
+                item.find('input[name*="[unique_id]"]').val() || ''
+            );
+
+            item.find(
+                '.siteorigin-widget-field-repeater-item-top'
+            ).text(
+                uniqueId ? 'Popup Item - ' + uniqueId : 'Popup Item'
+            );
+
         });
+    }
+
+    function initForm(form) {
+
+        updateCombinedLabel(form);
+        updateRepeaterLabels(form);
+
+        jQuery(form).on(
+            'input',
+            'input[name$="[classname]"], input[name*="[unique_id]"]',
+            function () {
+                updateCombinedLabel(form);
+                updateRepeaterLabels(form);
+            }
+        );
+
     }
 
     // Initialize dynamically loaded forms 
@@ -86,4 +115,17 @@ jQuery(document).ready(function () {
                 resetText('Failed to copy', 2000);
             });
     });
+
+    // jQuery(document).on('click', '.button-primary.so-close', function () {
+
+    //     const form = jQuery(this)
+    //         .closest('.ui-dialog')
+    //         .find('.siteorigin-widget-form[data-id-base="so-image-popup"]');
+
+    //     if (form.length) {
+    //         updateCombinedLabel(form);
+    //         updateRepeaterLabels(form);
+    //     }
+
+    // });
 });
